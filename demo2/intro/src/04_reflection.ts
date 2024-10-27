@@ -108,3 +108,7 @@ workflow
   .addEdge("reflect", "generate");
 
 export const reflectionGraph =  workflow.compile();
+reflectionGraph.name = "04 Reflection"
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(reflectionGraph)

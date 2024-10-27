@@ -118,5 +118,9 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 export const agentWithDynamicToolsGraph = workflow.compile()
 
-agentWithDynamicToolsGraph.name = "Agent With Dynamic Tooling";
+agentWithDynamicToolsGraph.name = "06 Agent With Dynamic Tooling";
 //#endregion
+
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(agentWithDynamicToolsGraph)

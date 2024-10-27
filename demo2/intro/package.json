@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "yarn tsc --project tsconfig.json --outDir dist",
+    "dev" : "nodemon",
     "start": "tsx --experimental-wasm-modules -r dotenv/config src/index.ts",
     "lint": "eslint src",
     "lint:fix": "yarn lint --fix",

@@ -2,12 +2,14 @@
 import { HumanMessage } from '@langchain/core/messages';
 import express, { Request, Response } from "express";
 import { gettingStartedGraph } from './01_gettingStarted.js'
-import { helloWorldGraph } from "./02_helloWorldGraph.js";
+import { helloCrewmatesGraph } from "./02_helloCrewmatesGraph.js";
 import { jokeOrFactGraph } from "./03_jokeOrFactGraph.js";
+import { reflectionGraph } from './04_reflection.js'
 import { agentWithToolingGraph } from './05_agentWithTooling.js'
 import { agentWithDynamicToolsGraph } from './06_agentWithDynamicTools.js'
-import { reflectionGraph } from './04_reflection.js'
-//import { agentRewoo } from '107_rewoo.js';
+import { simulationGraph } from './07_simulationEvaluation.js';
+import { Log, subgraph } from './08_subgraph.js';
+
 
 // Create an Express application
 const app = express();
@@ -33,7 +35,7 @@ app.get("/01", async (_req: Request, res: Response) => {
 
 app.get("/02", async (_req: Request, res: Response) => {
   // Execute the graph!
-  const result = await helloWorldGraph.invoke({
+  const result = await helloCrewmatesGraph.invoke({
     name: "Bot",
     isHuman: false,
   });
@@ -89,7 +91,7 @@ app.get("/05", async (_req: Request, res: Response) => {
   // Use the agent
   const agentFinalState = await agentWithToolingGraph.invoke(
     { messages: [new HumanMessage("who is harry potter?")] },
-    { configurable: { thread_id: "2" } },
+    { configurable: { thread_id: "conversation-num-1" } },
   );
   
   agentFinalState.messages.forEach((message, index) => {
@@ -126,14 +128,67 @@ app.get("/06", async (_req: Request, res: Response) => {
   res.send(agentFinalState.messages[agentFinalState.messages.length - 1].content);
 });
 
-// app.get("/07", async (_req: Request, res: Response) => {
-//   const task = _req.query["msg"] as string;
-//   //Use the agent
-//   const finalState = await agentRewoo.invoke({ task });
-//   const result = finalState;
-//   console.log(result);
-//   res.send(result);
-// });
+app.get("/07", async (_req: Request, res: Response) => {
+  const task = _req.query["msg"] as string;
+  //Use the agent
+  const finalState = await simulationGraph.invoke({ task });
+  const result = finalState;
+  console.log(result);
+  res.send(result);
+});
+
+app.get("/08", async (_req: Request, res: Response) => {
+    // Dummy logs
+    const dummyLogs: Log[] = [
+    {
+      "type": "log",
+      "id": "1",
+      "task": "Swipe Card",
+      "status": "Complete",
+      "details": "Successfully swiped the card in admin.",
+      timestamp: new Date("2024-10-27T12:35:00Z")
+    },
+    {
+      "type": "log",
+      "id": "2",
+      "task": "Fix Wiring",
+      "status": "Incomplete",
+      "details": "Wiring panel opened in Electrical; color mismatch found.",
+      timestamp: new Date("2024-10-27T12:37:00Z"),
+      "feedback": "Make sure to match all wires correctly."
+    },
+    {
+      "type": "log",
+      "id": "3",
+      "task": "Empty Garbage",
+      "status": "Complete",
+      "details": "Garbage emptied in Cafeteria chute.",
+      timestamp: new Date("2024-10-27T12:40:00Z")
+    },
+    {
+      "type": "log",
+      "id": "4",
+      "task": "Fuel Engines",
+      "status": "In Progress",
+      "details": "Fuel retrieved; heading to Upper Engine.",
+      timestamp: new Date("2024-10-27T12:45:00Z")
+    },
+    {
+      "type": "log",
+      "id": "5",
+      "task": "Align Engine Output",
+      "status": "Incomplete",
+      "details": "Alignment needed in Lower Engine.",
+      "timestamp": new Date("2024-10-27T12:48:00Z"),
+      "feedback": "Use controls to align engines perfectly."
+    }
+];
+    const result = await subgraph.invoke({ rawLogs: dummyLogs });
+    console.dir(result, { depth: null });
+    res.send(result);
+});
+
+
 
 // Start the server and listen on the specified port
 app.listen(port, () => {

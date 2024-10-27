@@ -1,4 +1,5 @@
 
+import { promises as fs } from 'fs';
 import { BaseMessage, HumanMessage } from '@langchain/core/messages'
 import { START, END, StateGraph, MessagesAnnotation } from '@langchain/langgraph'
 
@@ -32,4 +33,8 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 export const gettingStartedGraph = workflow.compile()
 
-gettingStartedGraph.name = "Getting Started";
+gettingStartedGraph.name = "01 Getting Started";
+
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(gettingStartedGraph)

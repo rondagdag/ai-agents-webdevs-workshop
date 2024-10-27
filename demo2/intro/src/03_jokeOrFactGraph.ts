@@ -51,3 +51,8 @@ const graphBuilder = new StateGraph({ stateSchema: JokeOrFactStateAnnotation })
 
 // Compile the graph
 export const jokeOrFactGraph = graphBuilder.compile();
+jokeOrFactGraph.name = "03 Joke or Fact Graph"
+
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(jokeOrFactGraph)

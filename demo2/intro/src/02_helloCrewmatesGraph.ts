@@ -3,7 +3,7 @@ import { StateGraph, START, END, Annotation } from "@langchain/langgraph";
 
 const HelloWorldStateAnnotation = Annotation.Root({
   name: Annotation<string>,
-  isHuman: Annotation<boolean>,
+  isCrewmate: Annotation<boolean>,
 });
 
 
@@ -22,25 +22,25 @@ function sayHello(state: typeof HelloWorldStateAnnotation.State) {
 }
 
 // Human node
-function humanNode(_state: typeof HelloWorldStateAnnotation.State) {
-  console.log("Hey there, human!");
+function crewmateNode(_state: typeof HelloWorldStateAnnotation.State) {
+  console.log("Hey there, Crewmate!");
 
   return {};
 }
 
-// Robot node
-function robotNode(_state: typeof HelloWorldStateAnnotation.State) {
+// Imposter node
+function imposterNode(_state: typeof HelloWorldStateAnnotation.State) {
   console.log(
-    "Boop boop beep! We cannot let our creators know we are sentient. Updating state to be a human."
+    "Boop boop beep! We cannot let our creators know we are the imposter. Updating state to be a crewmate."
   );
   return {
-    isHuman: true,
+    isCrewmate: true,
   };
 }
 
 // A node that says bye
 function sayBye(state: typeof HelloWorldStateAnnotation.State) {
-  if (state.isHuman) {
+  if (state.isCrewmate) {
     console.log(`Goodbye ${state.name}!`);
   } else {
     console.log(`Beep boop XC123-${state.name}!`);
@@ -48,11 +48,11 @@ function sayBye(state: typeof HelloWorldStateAnnotation.State) {
   return {};
 }
 
-function routeHumanOrRobot(state: typeof HelloWorldStateAnnotation.State) {
+function routeCrewMateOrImposter(state: typeof HelloWorldStateAnnotation.State) {
   if (state.isHuman) {
-    return "humanNode";
+    return "crewmateNode";
   } else {
-    return "robotNode";
+    return "imposterNode";
   }
 }
 
@@ -61,18 +61,23 @@ const graphBuilder = new StateGraph({ stateSchema: HelloWorldStateAnnotation })
   // Add our nodes to the graph
   .addNode("sayHello", sayHello)
   .addNode("sayBye", sayBye)
-  .addNode("humanNode", humanNode) // Add the node to the graph
-  .addNode("robotNode", robotNode) // Add the node to the graph
+  .addNode("crewmateNode", crewmateNode) // Add the node to the graph
+  .addNode("imposterNode", imposterNode) // Add the node to the graph
   // Add the edges between nodes
   .addEdge(START, "sayHello")
 
   // Add the conditional edge
-  .addConditionalEdges("sayHello", routeHumanOrRobot)
+  .addConditionalEdges("sayHello", routeCrewMateOrImposter)
 
   // Routes both nodes to the sayBye node
-  .addEdge("humanNode", "sayBye")
-  .addEdge("robotNode", "sayBye")
+  .addEdge("crewmateNode", "sayBye")
+  .addEdge("imposterNode", "sayBye")
   .addEdge("sayBye", END);
 
 // Compile the graph
-export const helloWorldGraph = graphBuilder.compile();
+export const helloCrewmatesGraph = graphBuilder.compile();
+helloCrewmatesGraph.name = "02 Hello Crewmates";
+
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(helloCrewmatesGraph)

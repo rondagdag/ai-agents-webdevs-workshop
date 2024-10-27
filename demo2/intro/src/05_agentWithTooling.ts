@@ -92,3 +92,9 @@ export const agentWithToolingGraph = workflow.compile({
   // only uncomment if running locally
   checkpointer: new MemorySaver(),
 });
+
+agentWithToolingGraph.name = "05 Agent With Tooling"
+
+//draw graph
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(agentWithToolingGraph)
