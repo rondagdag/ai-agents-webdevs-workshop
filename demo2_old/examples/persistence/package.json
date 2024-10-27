@@ -1,0 +1,51 @@
+{
+  "name": "persistence",
+  "version": "1.0.0",
+  "description": "a simple nodeJS langgraph example of persistence",
+  "main": "main.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "build-swc": "npx swc src -d dist",
+    "start": "node -r tsconfig-paths/register -r dotenv/config dist/main.js",
+    "dev": "tsx --experimental-wasm-modules -r dotenv/config src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lionkeng/node-typescript-template.git"
+  },
+  "keywords": [
+    "nodeJS",
+    "typescript",
+    "template"
+  ],
+  "type": "module",
+  "author": "lionkeng@gmail.com",
+  "license": "LGPL-3.0-or-later",
+  "devDependencies": {
+    "@swc/cli": "*",
+    "@swc/core": "*",
+    "@swc/helpers": "*",
+    "@tsconfig/node18": "*",
+    "@types/node": "*",
+    "dotenv": "*",
+    "regenerator-runtime": "*",
+    "ts-node": "*",
+    "tsconfig-paths": "*",
+    "tsx": "*",
+    "typescript": "*"
+  },
+  "peerDependencies": {
+    "@langchain/anthropic": "*",
+    "@langchain/community": "*",
+    "@langchain/core": "*",
+    "@langchain/langgraph": "*",
+    "@langchain/openai": "*",
+    "better-sqlite3": "*",
+    "langchain": "*",
+    "langsmith": "*",
+    "zod": "*"
+  }
+}

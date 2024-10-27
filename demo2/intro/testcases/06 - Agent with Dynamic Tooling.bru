@@ -1,0 +1,15 @@
+meta {
+  name: 06 - Agent with Dynamic Tooling
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:3008/06?msg=what is today?
+  body: none
+  auth: none
+}
+
+params:query {
+  msg: what is today?
+}
