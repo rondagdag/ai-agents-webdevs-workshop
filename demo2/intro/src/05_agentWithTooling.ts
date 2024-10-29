@@ -13,6 +13,7 @@ import { DuckDuckGoSearch } from "@langchain/community/tools/duckduckgo_search";
 //#region "model"
 import { initChatModel } from "langchain/chat_models/universal";
 
+//#region model
 // const model = await initChatModel("llama3.2", {
 //   modelProvider: "ollama",
 //   temperature: 0,
@@ -67,6 +68,7 @@ const shouldContinue = (state: typeof MessagesAnnotation.State) => {
 };
 //#endregion
 
+//#region define graph
 /**
  * MessagesAnnotation is a pre-built state annotation imported from @langchain/langgraph.
  * It is the same as the following annotation:
@@ -94,7 +96,9 @@ export const agentWithToolingGraph = workflow.compile({
 });
 
 agentWithToolingGraph.name = "05 Agent With Tooling"
+//#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(agentWithToolingGraph)
+//#endregion

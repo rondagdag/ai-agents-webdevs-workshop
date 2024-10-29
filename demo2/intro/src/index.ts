@@ -1,5 +1,7 @@
 
 import { HumanMessage } from '@langchain/core/messages';
+import { ToolMessage } from "@langchain/core/messages";
+
 import express, { Request, Response } from "express";
 import { gettingStartedGraph } from './01_gettingStarted.js'
 import { helloCrewmatesGraph } from "./02_helloCrewmatesGraph.js";
@@ -9,6 +11,9 @@ import { agentWithToolingGraph } from './05_agentWithTooling.js'
 import { agentWithDynamicToolsGraph } from './06_agentWithDynamicTools.js'
 import { simulationGraph } from './07_simulationEvaluation.js';
 import { Log, subgraph } from './08_subgraph.js';
+import { waitUserInputGraph } from '09_waitUserInput.js';
+import { ragGraph } from '10_rag.js';
+import { newsGraph } from '11_newsGraph.js';
 
 
 // Create an Express application
@@ -182,13 +187,106 @@ app.get("/08", async (_req: Request, res: Response) => {
       "timestamp": new Date("2024-10-27T12:48:00Z"),
       "feedback": "Use controls to align engines perfectly."
     }
-];
+    ];
     const result = await subgraph.invoke({ rawLogs: dummyLogs });
     console.dir(result, { depth: null });
     res.send(result);
 });
 
+app.get("/09-init", async (_req: Request, res: Response) => {
 
+  // Input
+  const inputs = new HumanMessage("Use the search tool to ask the user where they are, then look up the weather there");
+
+  // Thread
+  const config2 = { configurable: { thread_id: "userinput-1" }, streamMode: "values" as const };
+
+  for await (const event of await waitUserInputGraph.stream({
+    messages: [inputs]
+  }, config2)) {
+    const recentMsg = event.messages[event.messages.length - 1];
+    console.log(`================================ ${recentMsg._getType()} Message (1) =================================`)
+    console.log(recentMsg.content);
+  }
+  const next = (await waitUserInputGraph.getState(config2)).next;
+  console.log("next: ", next)
+  res.send(next);
+});
+
+app.get("/09-respond", async (_req: Request, res: Response) => {
+
+  const config2 = { configurable: { thread_id: "userinput-1" }, streamMode: "values" as const };
+
+  const currentState = await waitUserInputGraph.getState(config2);
+
+  const toolCallId = currentState.values.messages[currentState.values.messages.length - 1].tool_calls[0].id;
+
+  // We now create the tool call with the id and the response we want
+  const toolMessage = new ToolMessage({
+    tool_call_id: toolCallId,
+    content: "singapore"
+  });
+
+  console.log("next before update state: ", (await waitUserInputGraph.getState(config2)).next)
+
+  // We now update the state
+  // Notice that we are also specifying `asNode: "askHuman"`
+  // This will apply this update as this node,
+  // which will make it so that afterwards it continues as normal
+  await waitUserInputGraph.updateState(config2, { messages: [toolMessage] }, "askHuman");
+
+  // We can check the state
+  // We can see that the state currently has the `agent` node next
+  // This is based on how we define our graph,
+  // where after the `askHuman` node goes (which we just triggered)
+  // there is an edge to the `agent` node
+  console.log("next AFTER update state: ", (await waitUserInputGraph.getState(config2)).next)
+  // await messagesApp.getState(config)
+
+  let lastMessage = "";
+  for await (const event of await waitUserInputGraph.stream(null, config2)) {
+    //console.log(event)
+    const recentMsg = event.messages[event.messages.length - 1];
+    console.log(`================================ ${recentMsg._getType()} Message (1) =================================`)
+    if (recentMsg._getType() === "tool") {
+      console.log({
+        name: recentMsg.name,
+        content: recentMsg.content
+      })
+      lastMessage = recentMsg.content
+    } else if (recentMsg._getType() === "ai") {
+      console.log(recentMsg.content)
+      lastMessage = recentMsg.content
+    }
+  }
+  res.send(lastMessage);
+});
+
+
+app.get("/10", async (_req: Request, res: Response) => {
+  const question = _req.query["question"] as string;
+  const inputs = {
+    messages: [
+      new HumanMessage(
+        question,
+      ),
+    ],
+  };
+
+  const result = await ragGraph.invoke(inputs);
+  console.dir(result, { depth: null });
+  res.send(result);
+});
+
+app.get("/11", async (_req: Request, res: Response) => {
+  const topic = _req.query["topic"] as string;
+  const inputs = {
+    topic
+};
+  const result = await newsGraph.invoke(inputs);
+  console.dir(result, { depth: null });
+  res.send(result);
+});
 
 // Start the server and listen on the specified port
 app.listen(port, () => {

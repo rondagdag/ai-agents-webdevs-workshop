@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "yarn tsc --project tsconfig.json --outDir dist",
-    "dev" : "nodemon",
+    "dev": "nodemon",
     "start": "tsx --experimental-wasm-modules -r dotenv/config src/index.ts",
     "lint": "eslint src",
     "lint:fix": "yarn lint --fix",
@@ -19,8 +19,12 @@
     "@langchain/core": "^0.2.31",
     "@langchain/langgraph": "^0.2.1",
     "@langchain/openai": "^0.2.8",
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
     "duck-duck-scrape": "^2.2.5",
     "express": "^4.21.1",
+    "faiss-node": "^0.5.1",
+    "jimp": "^1.6.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

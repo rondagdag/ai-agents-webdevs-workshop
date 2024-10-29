@@ -1,12 +1,14 @@
 import { StateGraph, START, END, Annotation } from "@langchain/langgraph";
 
 
+//#region state
 const HelloWorldStateAnnotation = Annotation.Root({
   name: Annotation<string>,
   isCrewmate: Annotation<boolean>,
 });
+//#endregion
 
-
+//#region nodes and edges
 // A node that says hello
 function sayHello(state: typeof HelloWorldStateAnnotation.State) {
   console.log(`Hello ${state.name}!`);
@@ -56,6 +58,9 @@ function routeCrewMateOrImposter(state: typeof HelloWorldStateAnnotation.State) 
   }
 }
 
+//#endregion
+
+//#region graph
 // Initialize the LangGraph
 const graphBuilder = new StateGraph({ stateSchema: HelloWorldStateAnnotation })
   // Add our nodes to the graph
@@ -77,7 +82,10 @@ const graphBuilder = new StateGraph({ stateSchema: HelloWorldStateAnnotation })
 // Compile the graph
 export const helloCrewmatesGraph = graphBuilder.compile();
 helloCrewmatesGraph.name = "02 Hello Crewmates";
+//#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(helloCrewmatesGraph)
+
+//#endregion

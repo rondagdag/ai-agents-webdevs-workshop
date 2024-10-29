@@ -1,12 +1,16 @@
 import { StateGraph, START, END, Annotation } from "@langchain/langgraph";
+import { graph } from "agent.js";
 
 
-
+//#region state
 const JokeOrFactStateAnnotation = Annotation.Root({
   userInput: Annotation<string>,
   responseMsg: Annotation<string>,
 });
 
+//#endregion
+
+//#region nodes and edges
 // decipherUserInput conditional node
 function decipherUserInput(state: typeof JokeOrFactStateAnnotation.State) {
   // This could be more complex logic using an LLM
@@ -38,7 +42,9 @@ async function factNode(_state: typeof JokeOrFactStateAnnotation.State) {
     responseMsg: "You requested a FACT: " + fact,
   };
 }
+//#endregion
 
+//#region graph
 // Initialize the LangGraph
 const graphBuilder = new StateGraph({ stateSchema: JokeOrFactStateAnnotation })
   // Add our nodes to the graph
@@ -52,7 +58,9 @@ const graphBuilder = new StateGraph({ stateSchema: JokeOrFactStateAnnotation })
 // Compile the graph
 export const jokeOrFactGraph = graphBuilder.compile();
 jokeOrFactGraph.name = "03 Joke or Fact Graph"
+//#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(jokeOrFactGraph)
+//#endregion

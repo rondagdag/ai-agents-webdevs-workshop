@@ -1,30 +1,27 @@
 import "dotenv/config";
-import { Annotation } from "@langchain/langgraph";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 import { initChatModel } from "langchain/chat_models/universal";
+import { StateGraph, END, START } from "@langchain/langgraph";
 
-//#region "planner"
+//#region "model"
 
 // const model = await initChatModel("llama3.2", {
 //   modelProvider: "ollama",
 //   temperature: 0,
 // });
 
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "azure_openai",
-//   temperature: 0,
-// });
-
 const model = await initChatModel("gpt-4", {
-  modelProvider: "openai",
+  modelProvider: "azure_openai",
   temperature: 0,
 });
 
-import { ChatOpenAI } from '@langchain/openai'
-import type { AIMessageChunk, BaseMessageLike } from "@langchain/core/messages";
+// const model = await initChatModel("gpt-4", {
+//   modelProvider: "openai",
+//   temperature: 0,
+// });
 
-const llm = new ChatOpenAI({ model: "gpt-4o-mini" });
+//#endregion
 
 //#region define chatbot
 
@@ -35,7 +32,7 @@ async function myChatBot(messages: BaseMessageLike[]): Promise<AIMessageChunk> {
   };
   const allMessages = [systemMessage, ...messages];
   
-  const response = await llm.invoke(allMessages)
+  const response = await model.invoke(allMessages)
   return response
 }
 
@@ -47,7 +44,7 @@ async function myChatBot(messages: BaseMessageLike[]): Promise<AIMessageChunk> {
 
 //#region define simulated user
 import { type Runnable } from "@langchain/core/runnables";
-import { AIMessage } from "@langchain/core/messages";
+import { AIMessage, AIMessageChunk, BaseMessageLike } from "@langchain/core/messages";
 
 async function createSimulatedUser(): Promise<Runnable<{ messages: BaseMessageLike[] }, AIMessage>> {
     const systemPromptTemplate = `You are playing Among Us game. You are the imposter. You are interacting with another player user who is trying to identify the imposter 
@@ -65,7 +62,7 @@ If you have nothing more to add to the conversation, you must respond only with 
 
     const partialPrompt = await prompt.partial({ instructions });
     
-    const simulatedUser = partialPrompt.pipe(model);
+    const simulatedUser = partialPrompt.pipe(model as any);
     return simulatedUser;
 }
 
@@ -128,9 +125,6 @@ function shouldContinue(state: typeof MessagesAnnotation.State) {
 
 //#region define graph
 
-import { StateGraph, END, START } from "@langchain/langgraph";
-import { promises as fs } from 'fs';
-
 const workflow = new StateGraph(MessagesAnnotation)
     .addNode('user', simulatedUserNode)
     .addNode('chatbot', chatBotNode)
@@ -143,8 +137,9 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 export const simulationGraph = workflow.compile()
 simulationGraph.name = "07 simulation";
+//#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(simulationGraph)
 
@@ -154,3 +149,5 @@ await saveGraphAsImage(simulationGraph)
 //   console.log(`${nodeName}: ${messages[0].content}`);
 //   console.log('\n---\n');
 // }
+
+//#endregion

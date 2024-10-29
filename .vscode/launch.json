@@ -8,7 +8,7 @@
             "name": "tsx",
             "type": "node",
             "request": "launch",
-        
+            "envFile": "${workspaceFolder}/.env",
             // Debug current file in VSCode
             "program": "${file}",
         

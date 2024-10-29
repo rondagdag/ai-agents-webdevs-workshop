@@ -1,6 +1,8 @@
 
 import { StateGraph, START, Annotation } from "@langchain/langgraph";
 import { initChatModel } from "langchain/chat_models/universal";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
+import { StringOutputParser } from "@langchain/core/output_parsers";
 
 //#region model
 // const model = await initChatModel("llama3.2", {
@@ -8,15 +10,15 @@ import { initChatModel } from "langchain/chat_models/universal";
 //   temperature: 0,
 // });
 
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "azure_openai",
-//   temperature: 0,
-// });
-
 const model = await initChatModel("gpt-4", {
-  modelProvider: "openai",
+  modelProvider: "azure_openai",
   temperature: 0,
 });
+
+// const model = await initChatModel("gpt-4", {
+//   modelProvider: "openai",
+//   temperature: 0,
+// });
 //#endregion
 
 //#region logs
@@ -131,7 +133,6 @@ const taskSummarizationBuilder = new StateGraph(TaskSummarizationAnnotation)
   
 //#endregion
 
-
 //#region Entry Graph
 const EntryGraphAnnotation = Annotation.Root({
   rawLogs: Annotation<Log[]>({
@@ -152,7 +153,9 @@ const EntryGraphAnnotation = Annotation.Root({
 const selectLogs = (state: typeof EntryGraphAnnotation.State) => {
   return { logs: state.rawLogs.filter((log) => "status" in log) };
 }
+//#endregion
 
+//#region build graph
 const entryBuilder = new StateGraph(EntryGraphAnnotation)
   .addNode("selectLogs", selectLogs)
   .addNode("taskSummarization", taskSummarizationBuilder.compile())
@@ -163,11 +166,10 @@ const entryBuilder = new StateGraph(EntryGraphAnnotation)
   .addEdge("selectLogs", "taskSummarization");
 
 export const subgraph = entryBuilder.compile()
+subgraph.name = "08 subgraph";
 //#endregion
-subgraph.name = "07 simulation";
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
-import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
-import { StringOutputParser } from "@langchain/core/output_parsers";
 await saveGraphAsImage(subgraph)
+//#endregion

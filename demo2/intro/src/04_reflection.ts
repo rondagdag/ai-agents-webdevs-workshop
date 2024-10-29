@@ -7,8 +7,10 @@ import {
 import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { END, MemorySaver, StateGraph, START, Annotation } from "@langchain/langgraph";
 
+//#region model
 import { initChatModel } from "langchain/chat_models/universal";
 
+//#region model
 // const model = await initChatModel("llama3.2", {
 //   modelProvider: "ollama",
 //   temperature: 0,
@@ -24,6 +26,9 @@ const model = await initChatModel("gpt-4", {
 //   temperature: 0,
 // });
 
+//#endregion
+
+//#region nodes and edges
 //Easy Generation Chain
 
 const prompt = ChatPromptTemplate.fromMessages([
@@ -97,7 +102,9 @@ const shouldContinue = (state: typeof State.State) => {
   return "reflect";
 };
 
-// Define the graph
+//#endregion
+
+//#region Define the graph
 const workflow = new StateGraph(State)
   .addNode("generate", generationNode)
   .addNode("reflect", reflectionNode)
@@ -109,6 +116,9 @@ workflow
 
 export const reflectionGraph =  workflow.compile();
 reflectionGraph.name = "04 Reflection"
-//draw graph
+//#endregion
+
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(reflectionGraph)
+//#endregion

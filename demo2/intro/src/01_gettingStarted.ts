@@ -5,6 +5,7 @@ import { START, END, StateGraph, MessagesAnnotation } from '@langchain/langgraph
 
 import { initChatModel } from "langchain/chat_models/universal";
 
+//#region model
 // const model = await initChatModel("llama3.2", {
 //   modelProvider: "ollama",
 //   temperature: 0,
@@ -20,12 +21,17 @@ const model = await initChatModel("gpt-4", {
 //   temperature: 0,
 // });
 
+//#endregion
+
+//#region nodes and edges
 const callModel = async (state: typeof MessagesAnnotation.State) => {
   const { messages } = state;
   const result = await model.invoke(messages);
   return { messages: [result] };
 };
+//#endregion
 
+//#region graph
 const workflow = new StateGraph(MessagesAnnotation)
   .addNode("agent", callModel)
   .addEdge(START, "agent")
@@ -34,7 +40,9 @@ const workflow = new StateGraph(MessagesAnnotation)
 export const gettingStartedGraph = workflow.compile()
 
 gettingStartedGraph.name = "01 Getting Started";
+//#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(gettingStartedGraph)
+//#endregion

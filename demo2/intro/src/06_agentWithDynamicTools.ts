@@ -117,10 +117,10 @@ const workflow = new StateGraph(MessagesAnnotation)
   .addConditionalEdges("agent", shouldContinue, ["tools", END]);
 
 export const agentWithDynamicToolsGraph = workflow.compile()
-
 agentWithDynamicToolsGraph.name = "06 Agent With Dynamic Tooling";
 //#endregion
 
-//draw graph
+//#region draw graph
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(agentWithDynamicToolsGraph)
+//#endregion
