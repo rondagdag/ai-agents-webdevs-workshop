@@ -12,7 +12,7 @@
     "format": "prettier --write \"**/*.ts\"",
     "format:check": "prettier --check \"**/*.ts\""
   },
-  "author": "Brace Sproul",
+  "author": "Ron Dagdag",
   "license": "MIT",
   "dependencies": {
     "@langchain/community": "^0.2.31",
@@ -24,12 +24,16 @@
     "duck-duck-scrape": "^2.2.5",
     "express": "^4.21.1",
     "faiss-node": "^0.5.1",
+    "gifencoder": "^2.0.1",
+    "gifwrap": "^0.10.1",
     "jimp": "^1.6.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@jimp/types": "^1.6.0",
     "@tsconfig/recommended": "^1.0.2",
     "@types/express": "^5.0.0",
+    "@types/jimp": "^0.2.28",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "dotenv": "^16.0.3",

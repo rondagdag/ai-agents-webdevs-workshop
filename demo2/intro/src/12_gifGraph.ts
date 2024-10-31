@@ -31,6 +31,8 @@ const model = await initChatModel("gpt-4", {
 
 import { Annotation, END, Graph, START } from "@langchain/langgraph";
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
+//import { Gif, GifCodec, GifFrame, GifUtil } from "gifwrap/index.js";
+import GIFEncoder from "gifencoder";
 
 const GraphStateAnnotation = Annotation.Root({
   messages: Annotation<(HumanMessage | AIMessage)[]>,
@@ -45,6 +47,7 @@ const GraphStateAnnotation = Annotation.Root({
 async function getImageData(url: string): Promise<Buffer | null> {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
+    //console.log(response)
     return Buffer.from(response.data);
   } catch (error) {
     console.error(`Failed to fetch image from ${url}:`, error);
@@ -54,6 +57,7 @@ async function getImageData(url: string): Promise<Buffer | null> {
 
 async function generateCharacterDescription(state: typeof GraphStateAnnotation.State) : Promise<Partial<typeof GraphStateAnnotation.State>> {
   const query = state.query;
+  console.log(query)
   const response = await model.invoke([
     new HumanMessage({
       content: `Based on the query '${query}', create a detailed description of the main character, object, or scene. Include specific details about appearance, characteristics, and any unique features. This description will be used to maintain consistency across multiple images.`,
@@ -70,7 +74,7 @@ async function generatePlot(state: typeof GraphStateAnnotation.State) : Promise<
   const characterDescription = state.character_description;
   const response = await model.invoke([
     new HumanMessage({
-      content: `Create a short, 2-step plot for a GIF based on this query: '${state.query}' and featuring this description: ${characterDescription}. Each step should be a brief description of a single frame, maintaining consistency throughout. Keep it family-friendly and avoid any sensitive themes.`,
+      content: `Create a short, 4-step plot for a GIF based on this query: '${state.query}' and featuring this description: ${characterDescription}. Each step should be a brief description of a single frame, maintaining consistency throughout. Keep it family-friendly and avoid any sensitive themes.`,
     }),
   ]);
   console.log(response.content)
@@ -85,7 +89,7 @@ async function generateImagePrompts(state: typeof GraphStateAnnotation.State) {
   const characterDescription = state.character_description;
   const response = await model.invoke([
     new HumanMessage({
-      content: `Based on this plot: '${plot}' and featuring this description: ${characterDescription}, generate 2 specific, family-friendly image prompts, one for each step. Each prompt should be detailed enough for image generation, maintaining consistency, and suitable for DALL-E.\n\nAlways include the following in EVERY prompt to maintain consistency:\n1. A brief reminder of the main character or object's key features\n2. The specific action or scene described in the plot step\n3. Any relevant background or environmental details\n\nFormat each prompt as a numbered list item, like this:\n1. [Your prompt here]\n2. [Your prompt here]\n... and so on.`,
+      content: `Based on this plot: '${plot}' and featuring this description: ${characterDescription}, generate 4 specific, family-friendly image prompts, one for each step. Each prompt should be detailed enough for image generation, maintaining consistency, and suitable for DALL-E.\n\nAlways include the following in EVERY prompt to maintain consistency:\n1. A brief reminder of the main character or object's key features\n2. The specific action or scene described in the plot step\n3. Any relevant background or environmental details\n\nFormat each prompt as a numbered list item, like this:\n1. [Your prompt here]\n2. [Your prompt here]\n... and so on.`,
     }),
   ]);
 
@@ -98,8 +102,8 @@ async function generateImagePrompts(state: typeof GraphStateAnnotation.State) {
     }
   });
 
-  if (prompts.length !== 2) {
-    throw new Error(`Expected 2 prompts, but got ${prompts.length}. Please try again.`);
+  if (prompts.length !== 4) {
+    throw new Error(`Expected 4 prompts, but got ${prompts.length}. Please try again.`);
   }
   console.log(prompts)
   state.image_prompts = prompts;
@@ -144,27 +148,30 @@ async function createImages(state: typeof GraphStateAnnotation.State) :
 async function createGif(state: typeof GraphStateAnnotation.State) :
 Promise<Partial<typeof GraphStateAnnotation.State>> {
   const imageUrls = state.image_urls;
-  const images = [];
+  const imgData = await getImageData(imageUrls[0]);
+  const firstImage = await Jimp.read(imgData);
+  const width = firstImage.bitmap.width;
+  const height = firstImage.bitmap.height;
   console.log(imageUrls);
+
+  const encoder = new GIFEncoder(width, height);
+  const gifStream = fs.createWriteStream('output.gif');
+  encoder.createReadStream().pipe(gifStream);
+  encoder.start();
+  encoder.setRepeat(0);   // 0 for repeat, -1 for no-repeat
+  encoder.setDelay(500);  // Frame delay in ms
+  encoder.setQuality(10); // Image quality, 10 is default
+
   for (const url of imageUrls) {
     const imgData = await getImageData(url);
     if (imgData) {
       const image = await Jimp.read(imgData);
-      images.push(image);
+      //images.push(image);
+      image.resize({w:width, h:height});
+      encoder.addFrame(image.bitmap.data as any);
     }
   }
-  console.log("Length" + images.length)
-  if (images.length > 0) {
-    console.log("buffer")
-    const gif = images[0];
-    images.slice(0).forEach((img) => {
-      gif.composite(img, 0, 0);
-    });
-    state.gif_data = await gif.getBuffer("image/gif");
-  } else {
-    state.gif_data = null;
-  }
-  console.log(state.gif_data);
+  encoder.finish();
   return state;
 }
 
@@ -204,6 +211,7 @@ async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.S
   };
 
   try {
+    console.log('entry')
     const result = await gifGraph.invoke(initialState);
 
     console.log('Character/Scene Description:');
@@ -222,12 +230,6 @@ async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.S
       console.log(`${i + 1}. ${url}`);
     });
 
-    if (result.gif_data) {
-      console.log('\nGIF generated successfully.');
-    } else {
-      console.log('\nFailed to generate GIF.');
-    }
-
     return result;
   } catch (e) {
     console.error(`An error occurred: ${e.message}`);
@@ -235,13 +237,12 @@ async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.S
   }
 }
 
-const query = "A cat wearing a top hat and monocle, sitting at a desk and writing a letter with a quill pen.";
-runWorkflow(query).then((result) => {
-  if (result && result.gif_data) {
-    fs.writeFileSync('output.gif', result.gif_data);
-    console.log('GIF saved as output.gif');
-  } else {
-    console.log('No GIF data available to display or save.');
-  }
-});
+// const query = "An among us game character doing it's chores and reporting it.";
+// runWorkflow(query).then((result) => {
+//   if (result) {
+//     console.log('Saved');
+//   } else {
+//     console.log('No GIF data available to display or save.');
+//   }
+// });
 
