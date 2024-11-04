@@ -41,7 +41,6 @@ const GraphStateAnnotation = Annotation.Root({
   character_description: Annotation<string>,
   image_prompts: Annotation<string[]>,
   image_urls: Annotation<string[]>,
-  gif_data: Annotation<Buffer | null>
 });
 
 async function getImageData(url: string): Promise<Buffer | null> {
@@ -199,7 +198,7 @@ gifGraph.name = "12 Gif Graph"
 //#endregion
 
 
-async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.State | null> {
+export async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.State | null> {
   const initialState = {
     messages: [],
     query,
@@ -207,7 +206,6 @@ async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.S
     character_description: '',
     image_prompts: [],
     image_urls: [],
-    gif_data: null,
   };
 
   try {

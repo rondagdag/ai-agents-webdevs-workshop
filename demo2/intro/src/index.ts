@@ -14,7 +14,7 @@ import { Log, subgraph } from './08_subgraph.js';
 import { waitUserInputGraph } from '09_waitUserInput.js';
 import { ragGraph } from '10_rag.js';
 import { newsGraph } from '11_newsGraph.js';
-import { gifGraph } from '12_gifGraph.js';
+import { gifGraph, runWorkflow } from '12_gifGraph.js';
 
 
 // Create an Express application
@@ -128,7 +128,7 @@ app.get("/06", async (_req: Request, res: Response) => {
   );
     
   agentFinalState.messages.forEach((message, index) => {
-    console.log(`Message ${index + 1}: ${message.content}`);
+  console.log(`Message ${index + 1}: ${message.content}`);
   });
 
   res.send(agentFinalState.messages[agentFinalState.messages.length - 1].content);
@@ -295,49 +295,13 @@ app.get("/12", async (_req: Request, res: Response) => {
   const result = await runWorkflow(topic);
   if (result) {
     console.log('Saved');
+    res.sendFile(__dirname + '/output.gif');
+    return;
   } else {
     console.log('No GIF data available to display or save.');
   }
   res.send(result);
 });
-
-async function runWorkflow(query: string): Promise<typeof GraphStateAnnotation.State | null> {
-  const initialState = {
-    messages: [],
-    query,
-    plot: '',
-    character_description: '',
-    image_prompts: [],
-    image_urls: [],
-    gif_data: null,
-  };
-
-  try {
-    console.log('entry')
-    const result = await gifGraph.invoke(initialState);
-
-    console.log('Character/Scene Description:');
-    console.log(result.character_description);
-
-    console.log('\nGenerated Plot:');
-    console.log(result.plot);
-
-    console.log('\nImage Prompts:');
-    result.image_prompts.forEach((prompt, i) => {
-      console.log(`${i + 1}. ${prompt}`);
-    });
-
-    console.log('\nGenerated Image URLs:');
-    result.image_urls.forEach((url, i) => {
-      console.log(`${i + 1}. ${url}`);
-    });
-
-    return result;
-  } catch (e) {
-    console.error(`An error occurred: ${e.message}`);
-    return null;
-  }
-}
 
 // Start the server and listen on the specified port
 app.listen(port, () => {
