@@ -1,0 +1,54 @@
+/* styles/globals.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0e1a40; /* Dark blue background */
+    color: #ffc500; /* Golden text */
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  a {
+    color: #ffc500;
+    text-decoration: none;
+  }
+  
+  h1, h2 {
+    font-family: 'Georgia', serif;
+    text-align: center;
+  }
+  
+  button {
+    background-color: #ffc500;
+    color: #0e1a40;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0e6d2;
+    border: 1px solid #ccc;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  nav {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  nav a {
+    margin: 0 10px;
+  }
+  
