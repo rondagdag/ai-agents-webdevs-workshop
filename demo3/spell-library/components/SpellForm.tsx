@@ -129,6 +129,16 @@ export default function SpellForm({ isEditMode, spellId }: SpellFormProps) {
             name: "pronunciation",
             type: "string",
             description: "The pronunciation of the spell"
+          },
+          {
+            name: "seenMentioned",
+            type: "string",
+            description: "movies where the spell was mentioned"
+          },
+          {
+            name: "knownPractitioners",
+            type: "string",
+            description: "Known practictioners of the spell"
           }
         ],
         },
@@ -175,5 +185,5 @@ export default function SpellForm({ isEditMode, spellId }: SpellFormProps) {
       <br />
       <button onClick={() => router.back()}>Cancel</button>
     </div>
-  );
+  )
 }

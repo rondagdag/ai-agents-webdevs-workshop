@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { initChatModel } from "langchain/chat_models/universal";
 import { OpenAIModerationChain } from "langchain/chains";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
+import { initChatModel } from "langchain/chat_models/universal";
 
 const model = await initChatModel("llama3.2", {
   modelProvider: "ollama",

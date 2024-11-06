@@ -51,7 +51,7 @@ function sayBye(state: typeof HelloWorldStateAnnotation.State) {
 }
 
 function routeCrewMateOrImposter(state: typeof HelloWorldStateAnnotation.State) {
-  if (state.isHuman) {
+  if (state.isCrewmate) {
     return "crewmateNode";
   } else {
     return "imposterNode";

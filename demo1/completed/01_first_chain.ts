@@ -12,7 +12,6 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
 import { initChatModel } from "langchain/chat_models/universal";
-import { JsonOutputParser } from "@langchain/core/output_parsers";
 
 // const model = await initChatModel("llama3.2", {
 //   modelProvider: "ollama",

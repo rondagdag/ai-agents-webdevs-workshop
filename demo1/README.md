@@ -4,30 +4,34 @@
 Prompts in a language model are like magic spells. You tell the model what you want to talk about or ask, and it generates a magical response based on the input. AI agents are like the wizard who consults their spell book to cast a series of spells. AI Agents use a large language model (LLM) as a reasoning engine to determine which actions to take and in which order. Attend this session to learn how to craft AI Agents in JavaScript using LangChain and other prompt engineering techniques. Alohomora!
 
 ## Demo: 
-In this example you find a node app that can be used to learn LangChain in Javascript. This repository contains a series of sample scripts showcasing the usage of Langchain, a JavaScript library for creating conversational AI applications.
+In this example you find a node app that can be used to learn LangChain in Typescript. This repository contains a series of sample scripts showcasing the usage of Langchain, a JavaScript/Typescript library for creating conversational AI applications.
 
-- `00_basics.js`: Introduction to basics of using OpenAI API without Langchain.
-- `01_first_chain.js`: How to create your first conversation chain in Langchain.
-- `02_simplesequentialchain.js`: A simple example of creating a sequential conversation chain.
-- `03_sequentialchain.js`: Detailed walkthrough of creating and utilizing a sequential conversation chain in Langchain.
-- `04_parsers.js`: How to use parsers to process input and output in a conversation chain.
-- `05_indexes.js`: How to create and use indexes in Langchain for efficient retrieval of information.
-- `06_usestore.js`: How to utilize the Vector Databases in Langchain for maintaining and retrieving information which was not trained into the model.
-- `07_chathistory.js`: How to create a chat bot in Langchain, forming the basis of a conversational AI application.
-- `09_openapichain.js`: How to use simple open api.
+- `00_basics.ts`: Introduction to basics of using OpenAI API without Langchain.
+- `01_first_chain.ts`: How to create your first conversation chain in Langchain.
+- `02_simplesequentialchain.ts`: A simple example of creating a sequential conversation chain.
+- `03_sequentialchain.ts`: Detailed walkthrough of creating and utilizing a sequential conversation chain in Langchain.
+- `04_parsers.ts`: How to use parsers to process input and output in a conversation chain.
+- `05_indexes.ts`: How to create and use indexes in Langchain for efficient retrieval of information.
+- `06_usestore.ts`: How to utilize the Vector Databases in Langchain for maintaining and retrieving information which was not trained into the model.
+- `07_chathistory.ts`: How to create a chat bot in Langchain, forming the basis of a conversational AI application.
+- `08_openapichain.ts`: How to use simple open api.
 - `09_openaifunc.js`: How to create an agent in Langchain the uses OpenAI Functions.
-- `10_conversationalagents.js`: How to create an agent in Langchain that designed to be used for conversational settings.
-- `11_planexecute.js`: Plan and execute agents accomplish an objective by first planning what to do, then executing the sub tasks. This idea is largely inspired by BabyAGI and then the "Plan-and-Solve" paper.
-- `12_sqltoolkit.js`: This example shows how to load and use an agent with a SQL toolkit.
-- `13_sequentialchaincocktail.js`: This example shows how to generate unique meals.
-- `14_moderation.js`: This example shows how to add moderation/filter before sending to LLM.
+- `10_duckduckgo.js`: How to create a tool that uses duckduckgo.
+- `10_wikipediatool.ts`: How to create a tool that uses wikipedia.
+- `11_webbrowsertool.ts`: Create a tool that invoke web browser to get data.
+- `12_sqltoolkit.ts`: This example shows how to load and use an agent with a SQL toolkit.
+- `13_extraction.ts`: This example shows how to extract and output to json.
+- `14_moderation.ts`: This example shows how to add moderation/filter before sending to LLM.
+- `15_multimodal.ts`: This example shows how to add moderation/filter before sending to LLM.
+- `16_imagegeneration.ts`: How to generate images.
+
 
 To run these examples, clone the git repository and run npm install to install the dependencies. You need to create a .env file and add your API Key for OpenAI like this: OPENAI_API_KEY=sk-...
 
 This codes utilizes ES6 modules, to allow import statements and async/await within NodeJS.
   
 Click my binder link to test it out! 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rondagdag/ai-agents-js/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rondagdag/ai-agents-webdevs-workshop/HEAD)
 
 ### Presentation resources
 - [Slidedeck](./ai-agents-js.pdf)

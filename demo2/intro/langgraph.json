@@ -1,6 +1,6 @@
 {
   "graphs": {
-    "simple_agent": "./src/index.ts:graph"
+    "simple_agent": "./src/01_gettingStarted.ts:graph"
   },
   "env": ".env",
   "node_version": "20"

@@ -1,9 +1,0 @@
-{
-  "node_version": "20",
-  "dockerfile_lines": [],
-  "dependencies": ["."],
-  "graphs": {
-    "stockbroker": "./src/index.ts:graph"
-  },
-  "env": ".env"
-}

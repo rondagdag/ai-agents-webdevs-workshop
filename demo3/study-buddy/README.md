@@ -1,11 +1,8 @@
-<div align="center">
-    <img src="https://github.com/user-attachments/assets/8c64e8e2-6632-4765-a441-7bd92f05d5df" width="400" />
-    <h2>Study Buddy</h2>
-</div>
 
 ### ⭐ About
 A tool where students can enter study topics and get AI-generated study plans and tips
 
+https://github.com/kom-senapati/study-buddy
 
 $~$
 

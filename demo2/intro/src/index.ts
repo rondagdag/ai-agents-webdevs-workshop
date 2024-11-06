@@ -42,8 +42,8 @@ app.get("/01", async (_req: Request, res: Response) => {
 app.get("/02", async (_req: Request, res: Response) => {
   // Execute the graph!
   const result = await helloCrewmatesGraph.invoke({
-    name: "Bot",
-    isHuman: false,
+    name: "Imposter",
+    isCrewmate: false,
   });
 
   console.log("\n=====START======");

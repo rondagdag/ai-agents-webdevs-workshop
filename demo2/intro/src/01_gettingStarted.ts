@@ -40,6 +40,7 @@ const workflow = new StateGraph(MessagesAnnotation)
 export const gettingStartedGraph = workflow.compile()
 
 gettingStartedGraph.name = "01 Getting Started";
+
 //#endregion
 
 //#region draw graph
