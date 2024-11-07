@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export async function getOpenAIAdapter() {
   const { OpenAIAdapter } = await import("@copilotkit/runtime");

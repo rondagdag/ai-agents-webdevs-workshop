@@ -20,11 +20,8 @@ $~$
 ### 📤 Set up
 - These are the steps required to install the project.
 
-1. Get API key from [GROQ](https://console.groq.com).
+1. Get API key from [GROQ](https://console.groq.com) or [OpenAI](https://platform.openai.com)
 2. Clone the repo
-   ```sh
-   git clone https://github.com/kom-senapati/study-buddy
-   ```
 3. Install NPM packages
    ```sh
    npm install

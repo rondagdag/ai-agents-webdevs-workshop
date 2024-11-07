@@ -68,16 +68,6 @@ export default function SpellForm({ isEditMode, spellId }: SpellFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-//    let imagePath = spellData.image;
-
-    // if (imageFile) {
-    //   const formData = new FormData();
-    //   formData.append('image', imageFile);
-
-    //   const uploadResponse = await axios.post('/api/upload', formData);
-    //   imagePath = uploadResponse.data.filePath;
-    // }
-
     const payload = {
       ...spellData,
       knownPractitioners: spellData.knownPractitioners.split(',').map((s: string) => s.trim()),
@@ -101,16 +91,6 @@ export default function SpellForm({ isEditMode, spellId }: SpellFormProps) {
       description: "Create a Harry Potter spell",
       // Define the parameters required for the action
       parameters: [
-
-        // name: '',
-        // description: '',
-        // pronunciation: '',
-        // seenMentioned: '',
-        // etymology: '',
-        // notes: '',
-        // knownPractitioners: '',
-        // additionalItems: '',
-        // image: '',
         {
           name: "spell",
           type: "object",

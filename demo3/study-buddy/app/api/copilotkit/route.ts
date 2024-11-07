@@ -6,7 +6,7 @@ import {
     copilotRuntimeNextJSAppRouterEndpoint,
   } from "@copilotkit/runtime";
 import { NextRequest } from "next/server";
-import { getLangChainAzureOpenAIAdapter } from "./adapter";
+import { getAzureOpenAIAdapter, getGroqAdapter, getLangChainAzureOpenAIAdapter, getLangChainOllamaAdapter, getLangChainOpenAIAdapter, getOpenAIAdapter } from "./adapter";
 
 const runtime = new CopilotRuntime();
 
@@ -17,6 +17,7 @@ export const POST = async (req: NextRequest) => {
     //serviceAdapter: await getOpenAIAdapter(),
     //serviceAdapter: await getLangChainOllamaAdapter(),
     serviceAdapter: await getLangChainAzureOpenAIAdapter(),
+    //serviceAdapter: await getGroqAdapter(),
     //serviceAdapter: await getAzureOpenAIAdapter(),
     endpoint: req.nextUrl.pathname,
   });

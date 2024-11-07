@@ -44,6 +44,7 @@ export async function getLangChainOllamaAdapter() {
     },
   });
 }
+
 export async function getLangChainAzureOpenAIAdapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
   const { initChatModel } = await import("langchain/chat_models/universal");
@@ -56,4 +57,13 @@ export async function getLangChainAzureOpenAIAdapter() {
       return model.stream(messages, { tools });
     },
   });
+}
+
+
+export async function getGroqAdapter() {
+  const { GroqAdapter } = await import("@copilotkit/runtime");
+  const { Groq } = await import("groq-sdk");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY }) as any;
+  return new GroqAdapter({ groq, model: "llama3-groq-8b-8192-tool-use-preview" });
 }
