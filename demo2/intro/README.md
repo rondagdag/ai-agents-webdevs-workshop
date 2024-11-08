@@ -17,7 +17,6 @@ yarn run dev
 
 ## Installation
 
-- Install Bruno: https://github.com/usebruno/bruno/blob/main/readme.md
 - Test cases are in testcases folder
 
 ## Environment variables
@@ -39,6 +38,14 @@ AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME=text-embedding-3-small
 AZURE_OPENAI_API_KEY=YOUR_API_KEY
 AZURE_OPENAI_ENDPOINT=YOUR_API_ENDPOINT
 ```
+
+## Test the API
+
+```
+cd testcases
+npx bru run "01 - Getting Started.bru" 
+```
+
 
 ## LangGraph Config
 

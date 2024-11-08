@@ -295,8 +295,6 @@ app.get("/12", async (_req: Request, res: Response) => {
   const result = await runWorkflow(topic);
   if (result) {
     console.log('Saved');
-    res.sendFile(__dirname + '/output.gif');
-    return;
   } else {
     console.log('No GIF data available to display or save.');
   }
