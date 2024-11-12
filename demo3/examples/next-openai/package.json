@@ -9,6 +9,11 @@
     "lint": "next lint",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf .next"
   },
+  "workspaces":[
+    "packages/tsconfig",
+    "packages/tailwind-config",
+    "packages/eslint-config-custom"
+  ],
   "dependencies": {
     "@copilotkit/react-core": "^1.3.12",
     "@copilotkit/react-textarea": "^1.3.12",
