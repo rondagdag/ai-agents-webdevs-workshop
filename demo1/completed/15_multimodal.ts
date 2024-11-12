@@ -8,7 +8,7 @@ const openai = new OpenAI();
 
 async function main() {
 
-    const imageData = await fs.readFile("./images/Harry_Potter_and_the_Philosopher's_Stone_Book_Cover.jpg");
+  const imageData = await fs.readFile("./images/Harry_Potter_and_the_Philosopher's_Stone_Book_Cover.jpg");
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [

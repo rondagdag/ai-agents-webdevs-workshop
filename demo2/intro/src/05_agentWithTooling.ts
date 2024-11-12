@@ -11,23 +11,7 @@ import { StructuredTool } from "@langchain/core/tools";
 import { DuckDuckGoSearch } from "@langchain/community/tools/duckduckgo_search";
 
 //#region "model"
-import { initChatModel } from "langchain/chat_models/universal";
-
-//#region model
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
+import { model } from "model.js"
 //#endregion
 
 //#region tools

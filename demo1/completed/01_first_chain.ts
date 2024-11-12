@@ -11,22 +11,7 @@ import { PromptTemplate } from "@langchain/core/prompts";
 
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
-import { initChatModel } from "langchain/chat_models/universal";
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
+import { model } from "./model";
 
 const joke = await model.invoke(
   "Tell me a Harry Potter joke."

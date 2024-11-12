@@ -1,31 +1,11 @@
 
 import { MessagesAnnotation, StateGraph } from "@langchain/langgraph";
+import "dotenv/config";
 
 //#region model
+import { embeddings } from "embeddings.js";
+import { model } from "model.js"
 
-import "dotenv/config";
-import { initChatModel } from "langchain/chat_models/universal";
-
-// import { OllamaEmbeddings } from "@langchain/ollama";
-// const embeddings = new OllamaEmbeddings({
-//   model: "nomic-embed-text", // Default value
-// });
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const embeddings = new AzureOpenAIEmbeddings();
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-//const embeddings = new OpenAIEmbeddings();
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
 //#endregion
 
 //#region Retriever

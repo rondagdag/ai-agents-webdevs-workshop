@@ -6,16 +6,7 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 
-// import { OllamaEmbeddings } from "@langchain/ollama";
-// const embeddings = new OllamaEmbeddings({
-//   model: "nomic-embed-text", // Default value
-// });
-
-import { AzureOpenAIEmbeddings } from "@langchain/openai";
-const embeddings = new AzureOpenAIEmbeddings();
-
-// import { OpenAIEmbeddings } from "@langchain/openai";
-// const embeddings = new OpenAIEmbeddings();
+import { embeddings } from "./embeddings";
 
 const loader = new TextLoader("./texts/J. K. Rowling - Harry Potter 1 - Sorcerer's Stone.txt");
 

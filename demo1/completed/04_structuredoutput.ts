@@ -3,15 +3,11 @@ import "dotenv/config";
 import { JsonOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-import { ChatOpenAI } from "@langchain/openai";
-const model = new ChatOpenAI({
-  model: "gpt-4o",
-  temperature: 0,
-});
+import { model } from "./model";
 
 type Person = {
   name: string;
-  height_in_meters: number;
+  height: number;
 };
 
 type People = {
@@ -19,7 +15,7 @@ type People = {
 };
 
 const formatInstructions = `Respond only in valid JSON. The JSON object you return should match the following schema:
-{{ people: [{{ name: "string", height_in_meters: "number" }}] }}
+{{ people: [{{ name: "string", "height": "number" }}] }}
 
 Where people is an array of objects, each with a name and height_in_meters field.
 `;

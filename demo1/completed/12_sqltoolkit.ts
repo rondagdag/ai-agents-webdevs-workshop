@@ -1,6 +1,5 @@
 import "dotenv/config";
 
-import { OpenAI } from "@langchain/openai";
 import { SqlDatabase } from "langchain/sql_db";
 import { SqlToolkit } from "langchain/agents/toolkits/sql";
 import { DataSource } from "typeorm";
@@ -9,17 +8,7 @@ import { DataSource } from "typeorm";
  * in the examples folder.
  */
 
-import { initChatModel } from "langchain/chat_models/universal";
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
+import { model } from "./model";
 
 const datasource = new DataSource({
     type: "sqlite",

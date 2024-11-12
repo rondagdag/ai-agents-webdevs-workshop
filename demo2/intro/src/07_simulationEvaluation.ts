@@ -5,22 +5,7 @@ import { initChatModel } from "langchain/chat_models/universal";
 import { StateGraph, END, START } from "@langchain/langgraph";
 
 //#region "model"
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
-
+import { model } from "model.js"
 //#endregion
 
 //#region define chatbot
@@ -46,7 +31,7 @@ async function myChatBot(messages: BaseMessageLike[]): Promise<AIMessageChunk> {
 import { type Runnable } from "@langchain/core/runnables";
 import { AIMessage, AIMessageChunk, BaseMessageLike } from "@langchain/core/messages";
 
-async function createSimulatedUser(): Promise<Runnable<{ messages: BaseMessageLike[] }, AIMessage>> {
+async function createSimulatedUser() {
     const systemPromptTemplate = `You are playing Among Us game. You are the imposter. You are interacting with another player user who is trying to identify the imposter 
     
 {instructions}

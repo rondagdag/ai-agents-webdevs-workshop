@@ -14,22 +14,7 @@ import { z } from "zod";
 import { tool } from "@langchain/core/tools";
 
 //#region model
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("gpt-3.5-turbo", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
-
+import { model } from "model.js"
 //#endregion
 
 //#region tools

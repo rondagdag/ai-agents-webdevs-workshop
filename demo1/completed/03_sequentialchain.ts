@@ -4,17 +4,7 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { ConsoleCallbackHandler } from "@langchain/core/tracers/console";
 
-import { initChatModel } from "langchain/chat_models/universal";
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
+import { model } from "./model";
 
 
 let reviewPromptTemplate = PromptTemplate.fromTemplate(

@@ -17,6 +17,7 @@
   "dependencies": {
     "@langchain/community": "^0.2.31",
     "@langchain/core": "^0.2.31",
+    "@langchain/groq": "^0.1.2",
     "@langchain/langgraph": "^0.2.1",
     "@langchain/openai": "^0.2.8",
     "axios": "^1.7.7",

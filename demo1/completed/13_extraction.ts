@@ -2,22 +2,8 @@ import "dotenv/config";
 import { z } from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { initChatModel } from "langchain/chat_models/universal";
 
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 0,
-});
-
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "openai",
-//   temperature: 0,
-// });
+import { model } from "./model";
 
 let personSchema = z
   .object({
