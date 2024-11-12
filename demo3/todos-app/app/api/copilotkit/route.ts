@@ -7,7 +7,6 @@ import {
   import { NextRequest } from 'next/server';
   import { getGroqAdapter, getLangChainAzureOpenAIAdapter, getLangChainOllamaAdapter } from "./adapter"
 
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const runtime = new CopilotRuntime();
    
   export const POST = async (req: NextRequest) => {
@@ -18,7 +17,8 @@ import {
       //serviceAdapter: await getLangChainOllamaAdapter(),
       //serviceAdapter: await getLangChainAzureOpenAIAdapter(),
       //serviceAdapter: await getAzureOpenAIAdapter(),
-      serviceAdapter: await getLangChainOllamaAdapter(),
+      serviceAdapter: await getGroqAdapter(),
+      //serviceAdapter: await getLangChainOllamaAdapter(),
       endpoint: req.nextUrl.pathname,
     });
    
