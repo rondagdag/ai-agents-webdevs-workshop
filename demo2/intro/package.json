@@ -1,6 +1,6 @@
 {
-  "name": "financial-expert",
-  "description": "Financial expert LangGraph.js example",
+  "name": "langgraph-intro",
+  "description": "Intro to langgraph",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
