@@ -3,17 +3,7 @@ import "dotenv/config";
 import { JsonOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-import { initChatModel } from "langchain/chat_models/universal";
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 1
-// });
-
-const model = await initChatModel("gpt-4", {
-  modelProvider: "azure_openai",
-  temperature: 1,
-});
+import { model } from "./model";
 
 // A query and format instructions used to prompt a language model.
 const jokeQuery = "Tell me a Harry Potter joke.";

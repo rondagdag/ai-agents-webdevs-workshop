@@ -2,26 +2,11 @@ import "dotenv/config";
 import { WebBrowser } from "langchain/tools/webbrowser";
 import { initChatModel } from "langchain/chat_models/universal";
 
-import { OllamaEmbeddings } from "@langchain/ollama";
-import { AzureOpenAIEmbeddings, AzureChatOpenAI } from "@langchain/openai";
 
-
+import { embeddings } from "./embeddings";
+import { model } from "./model";
 
 export async function run() {
-
-    // const embeddings = new OllamaEmbeddings({
-    //     model: "nomic-embed-text", // Default value
-    // });
-    // const model = await initChatModel("llama3.2", {
-    //     modelProvider: "ollama",
-    //     temperature: 0,
-    // });
-
-    const embeddings = new AzureOpenAIEmbeddings();
-    const model = await initChatModel("gpt-4", {
-        modelProvider: "azure_openai",
-        temperature: 0,
-    });
 
   const browser = new WebBrowser({ model, embeddings });
 
