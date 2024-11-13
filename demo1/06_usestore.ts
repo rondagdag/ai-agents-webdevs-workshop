@@ -12,32 +12,6 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 import { embeddings } from "./embeddings";
 import { model } from "./model";
 
-// import { initChatModel } from "langchain/chat_models/universal";
-
-// // import { OllamaEmbeddings } from "@langchain/ollama";
-// // const embeddings = new OllamaEmbeddings({
-// //   model: "nomic-embed-text", // Default value
-// // });
-// // const model = await initChatModel("llama3.2", {
-// //   modelProvider: "ollama",
-// //   temperature: 0,
-// // });
-
-// import { AzureOpenAIEmbeddings, AzureChatOpenAI } from "@langchain/openai";
-// const embeddings = new AzureOpenAIEmbeddings();
-// const model = await initChatModel("gpt-4", {
-//   modelProvider: "azure_openai",
-//   temperature: 0,
-// });
-
-
-
-// const model = await initChatModel("llama3.2", {
-//   modelProvider: "ollama",
-//   temperature: 0,
-// });
-
-
 const vectorStore = await FaissStore.load("./", embeddings);
 
 const retriever = vectorStore.asRetriever();

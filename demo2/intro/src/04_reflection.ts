@@ -8,9 +8,6 @@ import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { END, MemorySaver, StateGraph, START, Annotation } from "@langchain/langgraph";
 
 //#region model
-import { initChatModel } from "langchain/chat_models/universal";
-
-//#region model
 import { model } from "model.js"
 //#endregion
 
