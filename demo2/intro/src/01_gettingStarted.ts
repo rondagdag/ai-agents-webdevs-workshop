@@ -5,7 +5,6 @@ import { START, END, StateGraph, MessagesAnnotation } from '@langchain/langgraph
 
 import { model } from "model.js"
 
-//#endregion
 
 //#region nodes and edges
 const callModel = async (state: typeof MessagesAnnotation.State) => {
