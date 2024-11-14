@@ -10,13 +10,16 @@ import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 
 import { model } from "model.js"
 
+//#region tools
 const webSearchTool = new TavilySearchResults({
   maxResults: 4,
 });
 const tools = [webSearchTool];
 
 const toolNode = new ToolNode(tools as any);
+//#endregion
 
+//#region model
 const callModel = async (state: typeof MessagesAnnotation.State) => {
   const { messages } = state;
 
@@ -24,7 +27,9 @@ const callModel = async (state: typeof MessagesAnnotation.State) => {
   const result = await llmWithTools.invoke(messages);
   return { messages: [result] };
 };
+//#endregion
 
+//#region conditionals
 const shouldContinue = (state: typeof MessagesAnnotation.State) => {
   const { messages } = state;
 
@@ -38,6 +43,7 @@ const shouldContinue = (state: typeof MessagesAnnotation.State) => {
   }
   return "tools";
 };
+//#endregion
 
 /**
  * MessagesAnnotation is a pre-built state annotation imported from @langchain/langgraph.
@@ -53,6 +59,7 @@ const shouldContinue = (state: typeof MessagesAnnotation.State) => {
  * ```
  */
 
+//#region graph
 const workflow = new StateGraph(MessagesAnnotation)
   .addNode("agent", callModel)
   .addEdge(START, "agent")
@@ -65,9 +72,11 @@ export const graph = workflow.compile({
   // only uncomment if running locally
   //checkpointer: new MemorySaver(),
 });
+graph.name = "graph";
+
+//#endregion
 
 //#region draw graph
-graph.name = "graph";
 import { saveGraphAsImage } from "drawGraph.js"
 await saveGraphAsImage(graph)
 //#endregion
