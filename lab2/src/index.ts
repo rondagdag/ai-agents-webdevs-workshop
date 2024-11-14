@@ -52,6 +52,7 @@ const shouldContinue = (state: typeof MessagesAnnotation.State) => {
  * });
  * ```
  */
+
 const workflow = new StateGraph(MessagesAnnotation)
   .addNode("agent", callModel)
   .addEdge(START, "agent")
@@ -64,6 +65,12 @@ export const graph = workflow.compile({
   // only uncomment if running locally
   //checkpointer: new MemorySaver(),
 });
+
+//#region draw graph
+graph.name = "graph";
+import { saveGraphAsImage } from "drawGraph.js"
+await saveGraphAsImage(graph)
+//#endregion
 
 // Now it's time to use!
 const agentFinalState = await graph.invoke(
@@ -83,3 +90,4 @@ const agentNextState = await graph.invoke(
 console.log(
   agentNextState.messages[agentNextState.messages.length - 1].content,
 );
+

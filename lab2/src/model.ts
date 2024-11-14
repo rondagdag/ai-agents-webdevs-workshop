@@ -1,3 +1,4 @@
+
 import { initChatModel } from "langchain/chat_models/universal";
 
 // export const model = await initChatModel("llama3.2", {
@@ -12,7 +13,7 @@ import { initChatModel } from "langchain/chat_models/universal";
 //   modelProvider: "openai",
 //   temperature: 0,
 // });
-export const model = await initChatModel(undefined, {
+export const model : any = await initChatModel(undefined, {
   modelProvider: "groq",
   temperature: 0,
 });
