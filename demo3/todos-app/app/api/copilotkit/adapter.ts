@@ -69,7 +69,7 @@ export async function getGroqAdapter() {
         modelProvider: "groq",
         temperature: 0,
       });
-      return model.stream(messages, { tools });
+      return model.stream(messages);
     },
   });
 }
