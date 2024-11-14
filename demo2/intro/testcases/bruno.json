@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "demo2",
+  "name": "testcases",
   "type": "collection",
   "ignore": [
     "node_modules",
