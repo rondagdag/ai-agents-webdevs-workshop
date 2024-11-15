@@ -34,7 +34,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
       },
     ],
     handler: ({ title }) => {
-      setTimeout(() => {  console.log('World!'); }, 5000)
+      //setTimeout(() => {  console.log('World!'); }, 5000)
       addTask(title);
     },
     render: ({ status, result }) => {  

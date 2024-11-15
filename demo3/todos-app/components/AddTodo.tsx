@@ -5,12 +5,24 @@ import { useTasks } from "@/lib/hooks/use-tasks";
 import "@copilotkit/react-textarea/styles.css";
 import { CopilotTextarea } from "@copilotkit/react-textarea";
 
+import { useCopilotChat } from "@copilotkit/react-core";
+import { Role, TextMessage } from "@copilotkit/runtime-client-gql";
+
 export function AddTodo() {
+  
   const [title, setTitle] = useState("");
   const { addTask } = useTasks();
 
+  const { appendMessage } = useCopilotChat();
+
   const handleAddTask = () => {
     addTask(title);
+    appendMessage(
+      new TextMessage({
+        content: `Added task ${title}. is there anything else?`,
+        role: Role.Assistant,
+      }),
+    );
     setTitle("");
   };
 

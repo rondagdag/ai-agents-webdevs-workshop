@@ -7,7 +7,11 @@ import { TaskStatus } from "@/lib/tasks.types";
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { AnimatePresence } from "framer-motion";
 
+import { useCopilotChat } from "@copilotkit/react-core";
+import { Role, TextMessage } from "@copilotkit/runtime-client-gql";
+
 export function TasksList() {
+
   const { tasks } = useTasks();
   useCopilotChatSuggestions(
     {

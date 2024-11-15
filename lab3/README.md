@@ -68,6 +68,124 @@ https://vercel.com/templates/next.js/nextjs-ai-chatbot
 
 ## How do I get started with CopilotKit?
 
+follow the instructions to get started with CopilotKit:
+
 https://docs.copilotkit.ai/tutorials/ai-todo-app/overview
 
+
+## Next Steps:
+
+1. Add suggestions to your copilot, using the [useCopilotChatSuggestions](https://docs.copilotkit.ai/reference/hooks/useCopilotChatSuggestions) hook. 
+
+
+
+      open `components/TasksList.tsx` and add the following code:
+
+      ```typescript
+
+      import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
+
+      ....
+      export function TasksList() {
+        const { tasks } = useTasks();
+        useCopilotChatSuggestions(
+          {
+            instructions: "Suggest the most relevant next actions.",
+            minSuggestions: 1,
+            maxSuggestions: 2,
+          },
+          [tasks],
+        );
+      ```
+
+      It should suggest relevent actions based on the tasks in the list.
+
+2. Add an initial assistant message to your chat window (for more info, check the documentation for [`<CopilotPopup />`](https://docs.copilotkit.ai/reference/components/chat/CopilotPopup)).
+
+  Open `app/page.tsx`
+
+  ```typescript
+  import { CopilotKitCSSProperties, CopilotPopup, CopilotSidebar } from "@copilotkit/react-ui"; 
+  ....
+
+    <div
+      style={
+        {
+          height: `100vh`,
+          "--copilot-kit-primary-color": "red",
+        } as CopilotKitCSSProperties
+      }
+    >
+      <CopilotSidebar  
+        labels={{
+          title: "To Do Assistant",
+          initial: "Hi! 👋 How can I assist with your list?",
+        }} />
+      </div>
+  ```
+
+  It will change the color of the chat window to red and display the initial message "Hi! 👋 How can I assist with your list?".
+
+3. Dive deeper into the useful [`useCopilotChat`](https://docs.copilotkit.ai/reference/hooks/useCopilotChat) hook, which enables you to set the system message, append messages, and more.
+
+  open `components/AddTodo.tsx` and replace the following code:
+
+  ```typescript
+  
+  import { useCopilotChat } from "@copilotkit/react-core";
+  import { Role, TextMessage } from "@copilotkit/runtime-client-gql";
+
+  export function AddTodo() {
+    
+    const [title, setTitle] = useState("");
+    const { addTask } = useTasks();
+
+    const { appendMessage } = useCopilotChat();
+
+    const handleAddTask = () => {
+      addTask(title);
+      appendMessage(
+        new TextMessage({
+          content: `Added task ${title}. is there anything else?`,
+          role: Role.Assistant,
+        }),
+      );
+      setTitle("");
+    };
+  ```
+
+  Add a task to the list. It will append a message to the chat window: "Added task {title}. is there anything else?".
+
+
+4. Implement autocompletion using the [`<CopilotTextarea />`](https://docs.copilotkit.ai//reference/components/CopilotTextarea) component.
+   
+   open `components/AddTodo.tsx` and replace the following code:
+
+   ```typescript
+
+    import { CopilotTextarea } from "@copilotkit/react-textarea";
+
+    ...
+    ...
+
+       <form onSubmit={(e) => e.preventDefault()}>
+      <div className="flex items-center mb-4">
+      <CopilotTextarea
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Add a new todo..."
+          className="flex-1 mr-2 bg-muted text-muted-foreground rounded-md px-4 py-2"
+          autosuggestionsConfig={{
+            textareaPurpose: "the title of the task",
+            chatApiConfigs: {},
+          }}
+        />
+        <Button type="submit" disabled={!title} onClick={handleAddTask}>
+          Add
+        </Button>
+      </div>
+      </form>
+   ```
+
+  this will enable autocompletion for the task title in the text area.
 

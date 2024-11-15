@@ -13,11 +13,11 @@ import {
     const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
       runtime,
       //serviceAdapter: await getLangChainAzureOpenAIAdapter(),
-      //serviceAdapter: await getOpenAIAdapter(),
+      serviceAdapter: await getOpenAIAdapter(),
       //serviceAdapter: await getLangChainAzureOpenAIAdapter(),
       //serviceAdapter: await getAzureOpenAIAdapter(),
       //serviceAdapter: await getGroqAdapter(),
-      serviceAdapter: await getLangChainOllamaAdapter(),
+      //serviceAdapter: await getLangChainOllamaAdapter(),
       endpoint: req.nextUrl.pathname,
     });
    

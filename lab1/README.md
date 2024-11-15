@@ -10,6 +10,7 @@
   - [Azure OpenAI](#azure-openai)
     - [Getting Started with Azure OpenAI Studio](#getting-started-with-azure-openai-studio)
     - [Prerequisites](#prerequisites)
+  - [How to run the project](#how-to-run-the-project)
 
 
 ## Ollama
@@ -149,3 +150,14 @@ curl -X POST https://<your-resource-name>.openai.azure.com/openai/deployments/<d
     "prompt": "Hello, how are you?",
     "max_tokens": 50
   }'
+```
+
+
+## How to run the project
+
+```bash
+npm install
+npx tsx 01_first_chain.ts
+```
+
+Modify prompts and questions in the `01_first_chain.ts` file to test different scenarios.
