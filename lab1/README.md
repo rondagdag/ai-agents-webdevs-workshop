@@ -1,19 +1,25 @@
-# Lab 1: Working with Langchain
 
 - [Lab 1: Working with Langchain](#lab-1-working-with-langchain)
-  - [Ollama](#ollama)
+  - [How to Obtain API Keys](#how-to-obtain-api-keys)
+    - [Ollama](#ollama)
     - [Install Ollama](#install-ollama)
     - [Running Llama 3.2](#running-llama-32)
     - [How to use Ollama in LangChain](#how-to-use-ollama-in-langchain)
-  - [Groq](#groq)
+    - [Groq](#groq)
     - [How to Obtain a Groq API Key](#how-to-obtain-a-groq-api-key)
-  - [Azure OpenAI](#azure-openai)
+    - [Azure OpenAI](#azure-openai)
     - [Getting Started with Azure OpenAI Studio](#getting-started-with-azure-openai-studio)
     - [Prerequisites](#prerequisites)
+  - [Update the `.env` file with the API keys](#update-the-env-file-with-the-api-keys)
   - [How to run the project](#how-to-run-the-project)
 
 
-## Ollama
+# Lab 1: Working with Langchain
+
+## How to Obtain API Keys
+Select the service you want to use and follow the instructions to obtain the necessary API keys.
+
+### Ollama
 
 ### Install Ollama
 
@@ -48,7 +54,7 @@ https://js.langchain.com/docs/integrations/chat/ollama/(https://js.langchain.com
 
 
 
-## Groq
+### Groq
 
 ### How to Obtain a Groq API Key
 
@@ -74,7 +80,7 @@ Step 4: Copy Your API Key
    - **Important:** Store the key securely. You will not be able to view it again once you navigate away from the page.
 
 
-## Azure OpenAI
+### Azure OpenAI
 
 ### Getting Started with Azure OpenAI Studio
 
@@ -150,6 +156,24 @@ curl -X POST https://<your-resource-name>.openai.azure.com/openai/deployments/<d
     "prompt": "Hello, how are you?",
     "max_tokens": 50
   }'
+```
+
+
+## Update the `.env` file with the API keys
+
+depending on the services you want to use, update the `.env` file with the corresponding API keys.
+```bash
+GROQ_API_KEY=
+# OPENAI_API_TYPE=OPENAI # AZURE_OPENAI
+OPENAI_API_KEY=
+# Set this to `azure`
+AZURE_OPENAI_MODELS=gpt-3.5-turbo,gpt-4
+AZURE_OPENAI_API_VERSION=2023-03-15-preview #default
+AZURE_OPENAI_API_INSTANCE_NAME=
+AZURE_OPENAI_API_DEPLOYMENT_NAME=
+AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME=text-embedding-3-small
+AZURE_OPENAI_API_KEY=
+AZURE_OPENAI_ENDPOINT=
 ```
 
 
