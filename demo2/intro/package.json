@@ -28,6 +28,7 @@
     "gifencoder": "^2.0.1",
     "gifwrap": "^0.10.1",
     "jimp": "^1.6.0",
+    "langsmith": "^0.2.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

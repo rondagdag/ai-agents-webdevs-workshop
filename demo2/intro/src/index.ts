@@ -1,21 +1,8 @@
 
-import { HumanMessage } from '@langchain/core/messages';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ToolMessage } from "@langchain/core/messages";
 
 import express, { Request, Response } from "express";
-import { gettingStartedGraph } from './01_gettingStarted.js'
-import { helloCrewmatesGraph } from "./02_helloCrewmatesGraph.js";
-import { jokeOrFactGraph } from "./03_jokeOrFactGraph.js";
-import { reflectionGraph } from './04_reflection.js'
-import { agentWithToolingGraph } from './05_agentWithTooling.js'
-import { agentWithDynamicToolsGraph } from './06_agentWithDynamicTools.js'
-import { simulationGraph } from './07_simulationEvaluation.js';
-import { Log, subgraph } from './08_subgraph.js';
-import { waitUserInputGraph } from '09_waitUserInput.js';
-import { ragGraph } from '10_rag.js';
-import { newsGraph } from '11_newsGraph.js';
-import { gifGraph, runWorkflow } from '12_gifGraph.js';
-
 
 // Create an Express application
 const app = express();
@@ -23,6 +10,7 @@ const app = express();
 // Specify the port number for the server
 const port: number = 3008;
 
+import { gettingStartedGraph } from './01_gettingStarted.js'
 app.get("/01", async (_req: Request, res: Response) => {
   // Execute the graph!
   // Use the agent
@@ -39,6 +27,8 @@ app.get("/01", async (_req: Request, res: Response) => {
   res.send(output);
 });
 
+
+import { helloCrewmatesGraph } from "./02_helloCrewmatesGraph.js";
 app.get("/02", async (_req: Request, res: Response) => {
   // Execute the graph!
   const result = await helloCrewmatesGraph.invoke({
@@ -53,6 +43,8 @@ app.get("/02", async (_req: Request, res: Response) => {
   res.send(result);
 });
 
+
+import { jokeOrFactGraph } from "./03_jokeOrFactGraph.js";
 app.get("/03", async (_req: Request, res: Response) => {
   // Execute the graph with a fact!
   const factResult = await jokeOrFactGraph.invoke({
@@ -78,6 +70,8 @@ app.get("/03", async (_req: Request, res: Response) => {
   });
 });
 
+
+import { reflectionGraph } from './04_reflection.js'
 app.get("/04", async (_req: Request, res: Response) => {
   // Execute the graph!
 
@@ -93,10 +87,17 @@ app.get("/04", async (_req: Request, res: Response) => {
 
 });
 
+
+import { agentWithToolingGraph } from './05_agentWithTooling.js'
+import { systemPrompt } from 'systemPrompt.js';
 app.get("/05", async (_req: Request, res: Response) => {
   // Use the agent
   const agentFinalState = await agentWithToolingGraph.invoke(
-    { messages: [new HumanMessage("who is harry potter?")] },
+    { messages: [
+        new SystemMessage(systemPrompt),
+        new HumanMessage("i'm the imposter on Mira HQ. what should i do?")
+      ] 
+    },
     { configurable: { thread_id: "conversation-num-1" } },
   );
   
@@ -106,19 +107,11 @@ app.get("/05", async (_req: Request, res: Response) => {
 
   res.send(agentFinalState.messages[agentFinalState.messages.length - 1].content);
 
-  // const finalState = await agentWithToolingGraph.invoke(
-  //   { messages: [new HumanMessage("what is the weather in Singapore?")] },
-  //   { configurable: { thread_id: '42' } });
-  // console.log(finalState.messages[finalState.messages.length - 1].content);
-  // const nextState = await agentWithToolingGraph.invoke({
-  //   // Including the messages from the previous run gives the LLM context.
-  //   // This way it knows we're asking about the weather in NY
-  //   messages: [...finalState.messages, new HumanMessage("what about Dallas, TX?")],
-  // });
-  // console.log(nextState.messages[nextState.messages.length - 1].content);
-
 });
 
+
+
+import { agentWithDynamicToolsGraph } from './06_agentWithDynamicTools.js'
 app.get("/06", async (_req: Request, res: Response) => {
 
   const msg = _req.query["msg"] as string;
@@ -134,6 +127,8 @@ app.get("/06", async (_req: Request, res: Response) => {
   res.send(agentFinalState.messages[agentFinalState.messages.length - 1].content);
 });
 
+
+import { simulationGraph } from './07_simulationEvaluation.js';
 app.get("/07", async (_req: Request, res: Response) => {
   const task = _req.query["msg"] as string;
   //Use the agent
@@ -143,6 +138,7 @@ app.get("/07", async (_req: Request, res: Response) => {
   res.send(result);
 });
 
+import { Log, subgraph } from './08_subgraph.js';
 app.get("/08", async (_req: Request, res: Response) => {
     // Dummy logs
     const dummyLogs: Log[] = [
@@ -194,6 +190,8 @@ app.get("/08", async (_req: Request, res: Response) => {
     res.send(result);
 });
 
+
+import { waitUserInputGraph } from '09_waitUserInput.js';
 app.get("/09-init", async (_req: Request, res: Response) => {
 
   // Input
@@ -264,6 +262,7 @@ app.get("/09-respond", async (_req: Request, res: Response) => {
 });
 
 
+import { ragGraph } from '10_rag.js';
 app.get("/10", async (_req: Request, res: Response) => {
   const question = _req.query["question"] as string;
   const inputs = {
@@ -279,6 +278,8 @@ app.get("/10", async (_req: Request, res: Response) => {
   res.send(result);
 });
 
+
+import { newsGraph } from '11_newsGraph.js';
 app.get("/11", async (_req: Request, res: Response) => {
   const topic = _req.query["topic"] as string;
   const inputs = {
@@ -290,6 +291,7 @@ app.get("/11", async (_req: Request, res: Response) => {
 });
 
 
+import { gifGraph, runWorkflow } from '12_gifGraph.js';
 app.get("/12", async (_req: Request, res: Response) => {
   const topic = _req.query["topic"] as string;
   const result = await runWorkflow(topic);

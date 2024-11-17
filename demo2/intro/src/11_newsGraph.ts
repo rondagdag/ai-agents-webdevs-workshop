@@ -5,13 +5,11 @@
  */
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { StateGraph, END, Annotation, START } from "@langchain/langgraph";
-import { RunnableLambda } from "@langchain/core/runnables";
 import { TavilySearchAPIRetriever } from "@langchain/community/retrievers/tavily_search_api";
 
 //#region model
 
 import "dotenv/config";
-import { initChatModel } from "langchain/chat_models/universal";
 
 //#region model
 import { model } from "model.js"
@@ -157,8 +155,7 @@ async function revise(state: typeof AgentStateAnnotation.State): Promise<Partial
   console.log("revising article");
   const response = await model.invoke([
     new SystemMessage(
-      `You are a personal newspaper editor. Your sole purpose is to edit a well-written article about a 
-      topic based on given critique.`.replace(/\s+/g, " ")
+      `You are a personal newspaper editor. Your sole purpose is to edit a well-written article about a topic based on given critique.`.replace(/\s+/g, " ")
     ),
     new HumanMessage(
       `Your task is to edit the article based on the critique given.
