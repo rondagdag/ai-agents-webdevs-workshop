@@ -17,7 +17,7 @@ type People = {
 const formatInstructions = `Respond only in valid JSON. The JSON object you return should match the following schema:
 {{ people: [{{ name: "string", "height": "number" }}] }}
 
-Where people is an array of objects, each with a name and height_in_meters field.
+Where people is an array of objects, each with a name and height_in_inches field.
 `;
 
 // Set up a parser
@@ -27,7 +27,7 @@ const parser = new JsonOutputParser<People>();
 const prompt = await ChatPromptTemplate.fromMessages([
   [
     "system",
-    "Answer the user query. Wrap the output in `json` tags\n{format_instructions}",
+    "Answer the user query. Wrap the output in json format\n{format_instructions}",
   ],
   ["human", "{query}"],
 ]).partial({
