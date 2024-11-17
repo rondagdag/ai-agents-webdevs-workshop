@@ -1,5 +1,4 @@
----
-openapi: 3.0.3
+openapi: 3.0.0
 info:
   title: Potter DB API
   version: v1
@@ -49,6 +48,122 @@ paths:
                       items:
                         "$ref": "#/components/schemas/book"
                 - "$ref": "#/components/schemas/success_without_data"
+      x-oaiMeta:
+        name: Get Books
+        group: books
+        path: list
+        examples:
+          curl: |
+            curl https://api.potterdb.com/v1/books
+        response: |
+            {
+              "data": [
+                  {
+                      "id": "6751e7f7-a8b7-488b-bde7-8606822d2338",
+                      "type": "book",
+                      "attributes": {
+                          "slug": "harry-potter-and-the-philosopher-s-stone",
+                          "author": "J. K. Rowling",
+                          "cover": "https://www.wizardingworld.com/images/products/books/UK/rectangle-1.jpg",
+                          "dedication": "For Jessica, who loves stories, for Anne, who loved them too, and for Di, who heard this one first",
+                          "pages": 223,
+                          "release_date": "1997-06-26",
+                          "summary": "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. Addressed in green ink on yellowish parchment with a purple seal, they are swiftly confiscated by his grisly aunt and uncle. Then, on Harry's eleventh birthday, a great beetle-eyed giant of a man called Rubeus Hagrid bursts in with some astonishing news: Harry Potter is a wizard, and he has a place at Hogwarts School of Witchcraft and Wizardry. An incredible adventure is about to begin!",
+                          "title": "Harry Potter and the Philosopher's Stone",
+                          "wiki": "https://harrypotter.fandom.com/wiki/Harry_Potter_and_the_Philosopher's_Stone"
+                      },
+                      "relationships": {
+                          "chapters": {
+                              "data": [
+                                  {
+                                      "id": "60dc2d57-45d9-4fb6-9b20-4987def53e4d",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "ef71a6ea-3322-46ac-b6f9-66b2460e47f7",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "9e03b1a1-b510-4862-8247-da470bb59f0f",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "f69e88d6-2751-4dfc-b23d-c4a36ec2d093",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "47ace083-208d-4a5d-9fcb-c654eec7448b",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "8a0c3721-73a4-48b2-985d-a85c157d2aef",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "ac522926-3869-42b6-ba95-d2fb3c99115b",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "7a084077-b26a-4a76-a48d-75c8b1764d95",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "e9816543-5a9f-4132-9083-c1ea0c2ae665",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "4cc8e0c8-264b-4065-9953-587b7e97ad61",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "a7c53dac-73d7-44cf-be51-b2ae3165c9d7",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "eab6b151-b770-449f-845a-c4152cec45dc",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "c18bd5d2-e589-43bc-83fd-8fffe3fb3f49",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "344d9491-3489-4f14-a4c1-a31aa8799aa4",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "01bd63ec-ffe7-4020-b45a-507569aa75dd",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "1fc4a5fd-80f2-432d-a742-e31d1c584767",
+                                      "type": "chapter"
+                                  },
+                                  {
+                                      "id": "9371830e-c866-4721-8b15-5a8a9b03057b",
+                                      "type": "chapter"
+                                  }
+                              ]
+                          }
+                      },
+                      "links": {
+                          "self": "/v1/books/6751e7f7-a8b7-488b-bde7-8606822d2338"
+                      }
+                  }
+              ],
+              "meta": {
+                  "pagination": {
+                      "current": 1,
+                      "records": 1
+                  },
+                  "copyright": "Copyright © Potter DB 2024",
+                  "generated_at": "2024-10-21T09:31:37.107Z"
+              },
+              "links": {
+                  "self": "https://api.potterdb.com/v1/books",
+                  "current": "https://api.potterdb.com/v1/books?page[number]=1"
+              }
+            }
   "/v1/books/{id}":
     get:
       summary: Retrieves a book

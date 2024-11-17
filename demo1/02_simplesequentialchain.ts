@@ -1,3 +1,9 @@
+/*
+LangChain Expression Language is a way to create arbitrary custom chains. It is built on the Runnable protocol.
+
+
+*/
+
 import "dotenv/config";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";

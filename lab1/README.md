@@ -46,6 +46,7 @@ ollama pull
 
 ### Running Llama 3.2
 ```bash
+ollama pull llama3.2
 ollama run llama3.2
 ```
 

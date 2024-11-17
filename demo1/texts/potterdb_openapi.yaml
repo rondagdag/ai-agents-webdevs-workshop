@@ -1,5 +1,4 @@
----
-openapi: 3.0.3
+openapi: 3.0.0
 info:
   title: Potter DB API
   version: v1
