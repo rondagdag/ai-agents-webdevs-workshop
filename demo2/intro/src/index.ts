@@ -16,7 +16,6 @@ app.get("/01", async (_req: Request, res: Response) => {
   // Use the agent
 
   const result = await gettingStartedGraph.invoke({
-    messages: [new HumanMessage("what is 1+3?")],
   });
 
   const output = result.messages[result.messages.length - 1].content;
@@ -92,10 +91,11 @@ import { agentWithToolingGraph } from './05_agentWithTooling.js'
 import { systemPrompt } from 'systemPrompt.js';
 app.get("/05", async (_req: Request, res: Response) => {
   // Use the agent
+  const msg = _req.query["msg"] as string;
   const agentFinalState = await agentWithToolingGraph.invoke(
     { messages: [
         new SystemMessage(systemPrompt),
-        new HumanMessage("i'm the imposter on Mira HQ. what should i do?")
+        new HumanMessage(msg)
       ] 
     },
     { configurable: { thread_id: "conversation-num-1" } },

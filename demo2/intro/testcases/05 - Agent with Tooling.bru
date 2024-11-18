@@ -1,11 +1,15 @@
 meta {
   name: 05 - Agent with Tooling
   type: http
-  seq: 5
+  seq: 6
 }
 
 get {
-  url: http://localhost:3008/05
+  url: http://localhost:3008/05?msg=i am the imposter on Mira HQ. what should i do?
   body: none
   auth: none
+}
+
+params:query {
+  msg: what is today?
 }

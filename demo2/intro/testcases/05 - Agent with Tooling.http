@@ -1,1 +1,1 @@
-GET http://localhost:3008/05 HTTP/1.1
+GET http://localhost:3008/05?msg=i am the imposter on Mira HQ. what should i do? HTTP/1.1
