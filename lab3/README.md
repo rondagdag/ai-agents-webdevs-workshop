@@ -13,6 +13,11 @@
   - [What are the alternatives to CopilotKit?](#what-are-the-alternatives-to-copilotkit)
   - [How do I get started with CopilotKit?](#how-do-i-get-started-with-copilotkit)
   - [Next Steps](#next-steps)
+  - [Use SLM](#use-slm)
+    - [Ollama](#ollama)
+    - [Install Ollama](#install-ollama)
+    - [Running Llama 3.2](#running-llama-32)
+    - [How to use Ollama in LangChain](#how-to-use-ollama-in-langchain)
 
 ## Introduction
 
@@ -71,6 +76,45 @@ CopilotKit is the simplest way to integrate production-ready Copilots into any p
 ## How do I get started with CopilotKit?
 
 Follow the instructions to get started with CopilotKit: [CopilotKit Tutorial](https://docs.copilotkit.ai/tutorials/ai-todo-app/overview)
+
+For Step2: To use Groq, modify app/api/route.ts
+  
+  ```typescript
+  import {
+    CopilotRuntime,
+    OpenAIAdapter,
+    copilotRuntimeNextJSAppRouterEndpoint,
+  } from '@copilotkit/runtime';
+  import { NextRequest } from 'next/server';
+
+  const runtime = new CopilotRuntime();
+  
+  async function getGroqAdapter() {
+    const { GroqAdapter } = await import("@copilotkit/runtime");
+    return new GroqAdapter();
+  }
+  export const POST = async (req: NextRequest) => {
+    const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
+      runtime,
+      serviceAdapter: await getGroqAdapter(),
+      endpoint: req.nextUrl.pathname,
+    });
+   
+    return handleRequest(req);
+  };
+
+  ```
+
+install Groq
+```bash
+npm install @langchain/groq
+```
+
+  modify .env.local
+  add the following line and plug in your GROQ API key
+  ```bash
+  GROQ_API_KEY=YOUR_GROQ_API
+  ```
 
 ## Next Steps
 
@@ -179,3 +223,78 @@ After getting started with CopilotKit, you can explore the following advanced fe
    ```
 
    This will enable autocompletion for the task title in the text area.
+
+## Use SLM
+
+### Ollama
+
+### Install Ollama
+
+Download link:- https://ollama.com/download(https://ollama.com/download)
+
+Windows Installation: Installing Ollama on Windows is straightforward. After downloading the executable file, simply run it, and Ollama will be installed automatically.
+
+MacOS Installation: After the download completes on MacOS, you can unzip the downloaded file. Then, simply drag the Ollama.app folder into your Applications folder.
+
+Linux installation: Just run below command in your terminal. Ollama will be installed.
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+```bash
+ollama --help
+ollama serve
+ollama list
+ollama rm
+ollama run
+ollama pull
+```
+
+### Running Llama 3.2
+```bash
+ollama pull llama3.2
+ollama run llama3.2
+```
+
+### How to use Ollama in LangChain
+https://js.langchain.com/docs/integrations/chat/ollama/(https://js.langchain.com/docs/integrations/chat/ollama/)
+
+```bash
+npm install @langchain/ollama
+```
+
+To use Ollama, modify app/api/route.ts
+  
+  ```typescript  
+  async function getLangChainOllamaAdapter() {
+    const { LangChainAdapter } = await import("@copilotkit/runtime");
+    const { ChatOllama } = await import("@langchain/ollama");
+    return new LangChainAdapter({
+      chainFn: async ({ messages, tools }) => {
+        const model = new ChatOllama({
+          model: "llama3.2", // Default value
+          temperature: 0
+        }).bind(tools as any) as any;
+        return model.stream(messages, { tools });
+      },
+    });
+  }
+
+  export const POST = async (req: NextRequest) => {
+    const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
+      runtime,
+      serviceAdapter: await getLangChainOllamaAdapter(),
+      endpoint: req.nextUrl.pathname,
+    });
+   
+    return handleRequest(req);
+  };
+
+  ```
+
+  modify .env.local
+  add the following line and plug in your GROQ API key
+  ```bash
+  GROQ_API_KEY=YOUR_GROQ_API
+  ```

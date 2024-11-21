@@ -75,3 +75,9 @@ export async function getLangChainAzureOpenAIAdapter() {
     },
   });
 }
+
+export async function getGroqAdapter() {
+  const { GroqAdapter } = await import("@copilotkit/runtime");
+  return new GroqAdapter();
+}
+
