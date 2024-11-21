@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export async function getOpenAIAdapter() {
   const { OpenAIAdapter } = await import("@copilotkit/runtime");
   const { OpenAI } = await import("openai");
+  //return new OpenAIAdapter();
   const openai = new OpenAI();
   return new OpenAIAdapter({ openai });
 }
@@ -33,37 +35,43 @@ export async function getLangChainOpenAIAdapter() {
 
 export async function getLangChainOllamaAdapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
-  const { initChatModel } = await import("langchain/chat_models/universal");
+  const { ChatOllama } = await import("@langchain/ollama");
   return new LangChainAdapter({
     chainFn: async ({ messages, tools }) => {
-      const model = await initChatModel("llama3.2", {
-        modelProvider: "ollama",
+      const model = new ChatOllama({
+        model: "llama3.2", // Default value
+        temperature: 0
+      }).bind(tools as any) as any;
+      return model.stream(messages, { tools });
+    },
+  });
+}
+
+export async function getLangChainOllamaPhi35Adapter() {
+  const { LangChainAdapter } = await import("@copilotkit/runtime");
+  const { ChatOllama } = await import("@langchain/ollama");
+  return new LangChainAdapter({
+    chainFn: async ({ messages }) => {
+      const model = new ChatOllama({
+        model: "phi3.5", // Default value
         temperature: 0,
       }) as any;
-      return model.stream(messages, { tools });
+      return model.stream(messages);
     },
   });
 }
 
 export async function getLangChainAzureOpenAIAdapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
-  const { initChatModel } = await import("langchain/chat_models/universal");
+  const { AzureChatOpenAI } = await import("@langchain/openai");
   return new LangChainAdapter({
     chainFn: async ({ messages, tools }) => {
-      const model = await initChatModel("gpt-4", {
-        modelProvider: "azure_openai",
+      const model = new AzureChatOpenAI({
+        model: "gpt-4o",
         temperature: 0,
-      });
+        maxTokens: undefined,
+        maxRetries: 2}).bind(tools as any) as any;
       return model.stream(messages, { tools });
     },
   });
-}
-
-
-export async function getGroqAdapter() {
-  const { GroqAdapter } = await import("@copilotkit/runtime");
-  const { Groq } = await import("groq-sdk");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY }) as any;
-  return new GroqAdapter({ groq, model: "llama3-groq-8b-8192-tool-use-preview" });
 }

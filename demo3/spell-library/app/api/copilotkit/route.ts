@@ -43,9 +43,9 @@ export const POST = async (req: NextRequest) => {
     runtime,
     //serviceAdapter: await getLangChainOpenAIAdapter(),
     //serviceAdapter: await getOpenAIAdapter(),
-    serviceAdapter: await getLangChainOllamaAdapter(),
+    //serviceAdapter: await getLangChainOllamaAdapter(),
     //serviceAdapter: await getLangChainAzureOpenAIAdapter(),
-    //serviceAdapter: await getLangChainOllamaPhi35Adapter(),
+    serviceAdapter: await getLangChainOllamaPhi35Adapter(),
     //serviceAdapter: await getAzureOpenAIAdapter(),
     endpoint: req.nextUrl.pathname,
   });

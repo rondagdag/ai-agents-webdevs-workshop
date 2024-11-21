@@ -35,10 +35,10 @@ export async function getLangChainOpenAIAdapter() {
 
 export async function getLangChainOllamaAdapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
-  const { Ollama } = await import("@langchain/ollama");
+  const { ChatOllama } = await import("@langchain/ollama");
   return new LangChainAdapter({
     chainFn: async ({ messages, tools }) => {
-      const model = new Ollama({
+      const model = new ChatOllama({
         model: "llama3.2", // Default value
         temperature: 0
       }).bind(tools as any) as any;
@@ -49,27 +49,28 @@ export async function getLangChainOllamaAdapter() {
 
 export async function getLangChainOllamaPhi35Adapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
-  const { Ollama } = await import("@langchain/ollama");
+  const { ChatOllama } = await import("@langchain/ollama");
   return new LangChainAdapter({
-    chainFn: async ({ messages, tools }) => {
-      const model = new Ollama({
+    chainFn: async ({ messages }) => {
+      const model = new ChatOllama({
         model: "phi3.5", // Default value
         temperature: 0,
-      }).bind(tools as any) as any;
-      return model.stream(messages, { tools });
+      }) as any;
+      return model.stream(messages);
     },
   });
 }
 
 export async function getLangChainAzureOpenAIAdapter() {
   const { LangChainAdapter } = await import("@copilotkit/runtime");
-  const { initChatModel } = await import("langchain/chat_models/universal");
+  const { AzureChatOpenAI } = await import("@langchain/openai");
   return new LangChainAdapter({
     chainFn: async ({ messages, tools }) => {
-      const model = await initChatModel("gpt-4", {
-        modelProvider: "azure_openai",
+      const model = new AzureChatOpenAI({
+        model: "gpt-4o",
         temperature: 0,
-      });
+        maxTokens: undefined,
+        maxRetries: 2}).bind(tools as any) as any;
       return model.stream(messages, { tools });
     },
   });
