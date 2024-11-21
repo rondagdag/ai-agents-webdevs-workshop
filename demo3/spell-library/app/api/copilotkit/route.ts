@@ -7,7 +7,7 @@ import {
 import { Action } from "@copilotkit/shared";
 import { NextRequest } from "next/server";
 import { scrape } from "./tavily"; // Import the previously defined scrape function
-import { getLangChainAzureOpenAIAdapter } from "./adapter"
+import { getLangChainAzureOpenAIAdapter, getLangChainOllamaAdapter, getLangChainOllamaPhi35Adapter, getLangChainOpenAIAdapter } from "./adapter"
 //Define a scraping action with its name, description, parameters, and handler function
 const scrapingAction: Action<any> = {
   name: "scrapeContent", // Name of the action
@@ -43,8 +43,9 @@ export const POST = async (req: NextRequest) => {
     runtime,
     //serviceAdapter: await getLangChainOpenAIAdapter(),
     //serviceAdapter: await getOpenAIAdapter(),
-    //serviceAdapter: await getLangChainOllamaAdapter(),
-    serviceAdapter: await getLangChainAzureOpenAIAdapter(),
+    serviceAdapter: await getLangChainOllamaAdapter(),
+    //serviceAdapter: await getLangChainAzureOpenAIAdapter(),
+    //serviceAdapter: await getLangChainOllamaPhi35Adapter(),
     //serviceAdapter: await getAzureOpenAIAdapter(),
     endpoint: req.nextUrl.pathname,
   });

@@ -17,7 +17,7 @@
     "@langchain/community": "^0.3.10",
     "@langchain/core": "^0.3.15",
     "@langchain/groq": "^0.1.2",
-    "@langchain/ollama": "^0.1.0",
+    "@langchain/ollama": "^0.1.2",
     "@langchain/openai": "^0.3.11",
     "axios": "^1.7.7",
     "multer": "^1.4.5-lts.1",

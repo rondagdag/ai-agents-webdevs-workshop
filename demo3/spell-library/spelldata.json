@@ -13,5 +13,15 @@
     ],
     "additionalItems": "Useful in duels",
     "image": "/images/expelliarmus.jpg"
+  },
+  {
+    "name": "Alohomora",
+    "description": "Opens locks and doors.",
+    "pronunciation": "/ˌæləʊhəˈmɔːrə/",
+    "seenMentioned": "First introduced in \"Harry Potter and the Philosopher's Stone\", used several times throughout the series.",
+    "knownPractitioners": [
+      "Hermione Granger"
+    ],
+    "id": 1732155568037
   }
 ]
