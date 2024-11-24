@@ -1,1 +1,1 @@
-GET http://localhost:3008/04 HTTP/1.1
+GET http://localhost:3008/04?msg="Generate an essay on the topicality of The Among Us game and its message in modern life" HTTP/1.1

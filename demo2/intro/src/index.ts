@@ -73,9 +73,10 @@ app.get("/03", async (_req: Request, res: Response) => {
 import { reflectionGraph } from './04_reflection.js'
 app.get("/04", async (_req: Request, res: Response) => {
   // Execute the graph!
-
+  const msg = _req.query["msg"] as string;
+  console.log("msg: ", msg);
   const agentFinalState = await reflectionGraph.invoke(
-    { messages: [new HumanMessage("Generate an essay on the topicality of The Little Prince and its message in modern life")] },
+    { messages: [new HumanMessage(msg)] },
   );
   
   agentFinalState.messages.forEach((message, index) => {

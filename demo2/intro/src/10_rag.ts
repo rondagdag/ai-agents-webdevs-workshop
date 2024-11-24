@@ -18,7 +18,6 @@ import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import fs from 'fs';
 import path from 'path';
 
-
 const indexPath = path.resolve("./rag.index");
 let vectorStore;
 

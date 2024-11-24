@@ -89,7 +89,7 @@ async function simulatedUserNode (state: typeof MessagesAnnotation.State) {
   const newMessages = swapRoles(messages)
   // This returns a runnable directly, so we need to use `.invoke` below:
   const simulateUser = await createSimulatedUser();
-  const response = await simulateUser.invoke({ messages: newMessages })
+  const response = await simulateUser.invoke({ messages: newMessages }) as any;
 
   return { messages: [{ role: "user", content: response.content }] }
 }

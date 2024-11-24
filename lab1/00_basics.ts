@@ -1,19 +1,18 @@
 import "dotenv/config";
 
-import { AzureOpenAI } from "openai";
+import { OpenAI } from "openai";
 
-const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
-const apiKey = process.env["AZURE_OPENAI_API_KEY"];
-const apiVersion = process.env["AZURE_OPENAI_API_VERSION"];
-const deployment = process.env["AZURE_OPENAI_API_DEPLOYMENT_NAME"]; // This must match your deployment name
+const token = process.env["GITHUB_OPENAI_API_KEY"];
+const endpoint = "https://models.inference.ai.azure.com";
+const modelName = "gpt-4o";
 
-const openai = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
+const openai = new OpenAI({ baseURL: endpoint, apiKey: token });
 
 async function chat(input) {
   const messages = [{ role: "user", content: input }];
 
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: modelName,
     messages: messages,
     temperature: 0,
   });
