@@ -1,6 +1,7 @@
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import {
   END,
+  MemorySaver,
   MessagesAnnotation,
   START,
   StateGraph,
@@ -70,7 +71,7 @@ const workflow = new StateGraph(MessagesAnnotation)
 export const graph = workflow.compile({
   // The LangGraph Studio/Cloud API will automatically add a checkpointer
   // only uncomment if running locally
-  //checkpointer: new MemorySaver(),
+  checkpointer: new MemorySaver(),
 });
 graph.name = "graph";
 
