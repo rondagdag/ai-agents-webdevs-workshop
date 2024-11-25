@@ -16,6 +16,7 @@ app.get("/01", async (_req: Request, res: Response) => {
   // Use the agent
 
   const result = await gettingStartedGraph.invoke({
+    messages: [new HumanMessage("what is 1+3?")],
   });
 
   const output = result.messages[result.messages.length - 1].content;

@@ -75,3 +75,25 @@ export async function getLangChainAzureOpenAIAdapter() {
     },
   });
 }
+
+export async function getGroqAdapter() {
+  const { GroqAdapter } = await import("@copilotkit/runtime");
+  return new GroqAdapter();
+}
+
+export async function getLangChainGithubOpenAIAdapter() {
+  const { LangChainAdapter } = await import("@copilotkit/runtime");
+  const { ChatOpenAI } = await import("@langchain/openai");
+  return new LangChainAdapter({
+    chainFn: async ({ messages, tools }) => {
+      const model = new ChatOpenAI({
+        modelName: "gpt-4o",
+        apiKey: process.env.GITHUB_OPENAI_API_KEY,
+        configuration: {
+          baseURL: 'https://models.inference.ai.azure.com'
+        }
+      }).bind(tools as any) as any;
+      return model.stream(messages, { tools });
+    },
+  });
+}

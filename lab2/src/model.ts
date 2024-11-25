@@ -9,21 +9,11 @@ import { initChatModel } from "langchain/chat_models/universal";
 //   modelProvider: "azure_openai",
 //   temperature: 0,
 // });
-// export const model = await initChatModel("gpt-4", {
+// export const model = await initChatModel("gpt-4o", {
 //   modelProvider: "openai",
 //   temperature: 0,
 // });
-// export const model : any = await initChatModel(undefined, {
-//   modelProvider: "groq",
-//   temperature: 0,
-// });
-
-//github
-export const model = await initChatModel("gpt-4", {
-  modelProvider: "openai",
-  apiKey: "GITHUB_OPENAI_API_KEY",
+export const model : any = await initChatModel(undefined, {
+  modelProvider: "groq",
   temperature: 0,
-  configuration: {
-    baseURL: 'https://models.inference.ai.azure.com'
-  }
 });

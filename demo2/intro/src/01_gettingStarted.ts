@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import { BaseMessage, HumanMessage } from '@langchain/core/messages'
 import { START, END, StateGraph, MessagesAnnotation } from '@langchain/langgraph'
 
-import { model } from "model.js"
+import { model } from "model"
 
 
 //#region nodes and edges

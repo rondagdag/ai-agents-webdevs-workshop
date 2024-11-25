@@ -4,6 +4,7 @@
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import {
 END,
+  MemorySaver,
 MessagesAnnotation,
 START,
 StateGraph,
@@ -52,7 +53,7 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 export const graph = workflow.compile({
   // Uncomment if running locally
-  //checkpointer: new MemorySaver(),
+  checkpointer: new MemorySaver(),
 });
 graph.name = "graph";
 
