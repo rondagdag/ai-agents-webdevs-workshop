@@ -12,8 +12,16 @@ import { initChatModel } from "langchain/chat_models/universal";
 //   modelProvider: "openai",
 //   temperature: 0,
 // });
-export const model = await initChatModel(undefined, {
-  modelProvider: "groq",
-  temperature: 0,
-});
+// export const model = await initChatModel(undefined, {
+//   modelProvider: "groq",
+//   temperature: 0,
+// });
 
+const { ChatOpenAI } = await import("@langchain/openai");
+export const model = new ChatOpenAI({
+  modelName: "gpt-4o-mini",
+  apiKey: process.env.GITHUB_OPENAI_API_KEY,
+  configuration: {
+    baseURL: 'https://models.inference.ai.azure.com'
+  }
+});
